@@ -1,0 +1,73 @@
+:root {
+  /* ══════════════════════════════════════════════════════════════
+     COULEURS PRIMAIRES (Agriculture)
+     ══════════════════════════════════════════════════════════════ */
+  --color-primary: #00897B;           /* Vert agricole principal */
+  --color-primary-light: #4DB6AC;
+  --color-primary-dark: #00695C;
+  
+  --color-secondary: #FF6F00;         /* Orange agriculture */
+  --color-secondary-light: #FF9800;
+  --color-secondary-dark: #E65100;
+  
+  --color-accent: #1976D2;            /* Bleu technologique */
+  --color-accent-light: #42A5F5;
+  --color-accent-dark: #0D47A1;
+
+  /* ══════════════════════════════════════════════════════════════
+     FONDS
+     ══════════════════════════════════════════════════════════════ */
+  --color-background: #F8F9FA;
+  --color-background-dark: #121212;
+  --color-surface: #FFFFFF;
+  --color-surface-dark: #1E1E1E;
+
+  /* ══════════════════════════════════════════════════════════════
+     TEXTE
+     ══════════════════════════════════════════════════════════════ */
+  --color-text-primary: #212121;
+  --color-text-secondary: #757575;
+  --color-text-hint: #BDBDBD;
+  --color-text-disabled: #E0E0E0;
+
+  /* ══════════════════════════════════════════════════════════════
+     STATUTS
+     ══════════════════════════════════════════════════════════════ */
+  --color-success: #4CAF50;
+  --color-warning: #FF9800;
+  --color-error: #E53935;
+  --color-info: #2196F3;
+
+  /* ══════════════════════════════════════════════════════════════
+     STATUTS COMMANDES
+     ══════════════════════════════════════════════════════════════ */
+  --color-order-pending: #FF9800;     /* En attente */
+  --color-order-accepted: #2196F3;    /* Acceptée */
+  --color-order-transit: #9C27B0;     /* En transit */
+  --color-order-delivered: #4CAF50;   /* Livrée */
+  --color-order-cancelled: #E53935;   /* Annulée */
+
+  /* ══════════════════════════════════════════════════════════════
+     VENDEUR (Interface Pro)
+     ══════════════════════════════════════════════════════════════ */
+  --color-vendor-primary: #1A237E;    /* Bleu indigo */
+  --color-vendor-primary-light: #3949AB;
+  --color-vendor-accent: #7C4DFF;     /* Violet */
+  --color-vendor-success: #00C853;
+
+  /* ══════════════════════════════════════════════════════════════
+     PAIEMENT
+     ══════════════════════════════════════════════════════════════ */
+  --color-mtn: #FFCC00;               /* MTN Mobile Money */
+  --color-orange: #FF6600;            /* Orange Money */
+
+  /* ══════════════════════════════════════════════════════════════
+     DIVERS
+     ══════════════════════════════════════════════════════════════ */
+  --color-divider: #E0E0E0;
+  --color-border: #E0E0E0;
+  --color-rating: #FFC107;
+  --color-flash-sale: #E53935;
+  --color-organic: #8BC34A;
+  --color-premium: #FFB300;
+}
