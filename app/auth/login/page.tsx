@@ -1,10 +1,274 @@
+'use client'
+import { useState } from "react";
 
-const page = () => {
+// Importation de React Hook Form pour gérer le formulaire
+import { useForm } from "react-hook-form";
+
+// Importation du resolver qui permet d'utiliser Zod avec React Hook Form
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Importation des icônes depuis lucide-react pour l'interface
+import {          
+  Lock,       // icône mot de passe
+  Eye,        // icône voir mot de passe
+  EyeOff,
+  User,
+} from "lucide-react";
+import Link from "next/link";
+// Importation du store Zustand qui contient la logique d'authentification
+import { useAuthStore } from "@/lib/stores/authStore";
+
+// Importation du schéma de validation Zod et du type TypeScript du formulaire
+import { apiClient } from "@/lib/api/client";
+import { API_ENDPOINTS } from "@/lib/api/enpoints";
+import {useRouter } from "next/navigation"
+import Image from "next/image"
+import { LoginInput, loginSchema } from "@/lib/validation/loginSchema";
+import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
+// import { useGoogleLogin } from "@react-oauth/google";
+
+export default function LoginPage() {
+
+  const router = useRouter();
+
+
+  // Etat pour afficher ou cacher le mot de passe
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Etat pour gérer le chargement pendant l'inscription
+  const [loading, setLoading] = useState(false);
+
+  // Etat pour gérer la case "Se souvenir de moi"
+  
+
+  // Initialisation de React Hook Form
+  const {
+    register, // fonction pour connecter les inputs au formulaire
+    handleSubmit, // fonction qui gère la soumission du formulaire
+    formState: { errors }, // contient les erreurs de validation
+  } = useForm<LoginInput>({
+    
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+      rememberMe: false, // Force le type à boolean dès le premier rendu
+    },
+    mode: "onChange", // validation en temps réel lorsque l'utilisateur tape
+  });
+
+  // --- LOGIQUE CONNEXION GOOGLE ---
+  // const handleGoogleLogin = async (googleToken: string) => {
+  //   setLoading(true);
+  //   try {
+  //     // Envoi du provider et du token au backend comme demandé
+  //     await apiClient.post(API_ENDPOINTS.AUTH.LOGIN_GOOGLE,{params:{
+  //       provider: "GOOGLE",
+  //       token: googleToken,
+  //     } } );
+
+  //     // Gestion de la réponse (ajustez selon votre API)
+  //     alert("Connexion Google réussie !");
+  //     router.push("/client/acceuil");
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (err: any) {
+  //     alert("Erreur Google: " + (err.response?.data?.message || err.message));
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // // Initialisation du bouton Google (nécessite le GoogleOAuthProvider dans votre layout)
+  // const loginWithGoogle = useGoogleLogin({
+  //   onSuccess: (tokenResponse) => handleGoogleLogin(tokenResponse.access_token),
+  //   onError: () => alert("La connexion Google a échoué"),
+  // });
+
+
+
+  // Fonction appelée lorsque le formulaire est soumis
+  const onSubmit = async (data: LoginInput) => {
+
+    // On active le mode chargement
+    setLoading(true);
+
+    try {
+
+      await apiClient.post(API_ENDPOINTS.AUTH.LOGIN,null,{params:{
+        username: data.username,
+        password: data.password,
+        rememberMe: data.rememberMe
+      }} )
+
+      // stocker temporairement les infos du formulaire
+      useAuthStore.getState().setTempUserL(data);
+      
+      // Message si l'inscription est réussie
+      alert("Un code a été envoyé à votre email !");
+      // ✅ Correction : Utilisez le chemin absolu de la route
+      router.push("/client/acceuil"); 
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+
+      // Message si une erreur survient
+      alert(err.message);
+
+    } finally {
+
+      // On désactive le chargement
+      setLoading(false);
+    }
+  };
+
+
+
+
   return (
-    <div>
-      <p>page</p>
-    </div>
-  )
-}
+    <div className="min-h-screen flex flex-col px-6 py-8 bg-white max-w-md  mx-auto p-6 ">
 
-export default page
+      {/* bouton fermer */}
+      <div className="mb-8">
+        <button className="text-2xl">✕</button>
+      </div>
+
+      {/* logo + texte */}
+      <div className="flex flex-col items-center text-center mb-10">
+        <Image
+          src="/images/logo.jpg"
+          alt="logo"
+          width={300}
+          height={300}
+          className="w-30  mb-5"
+        />
+
+        <h1 className="text-3xl font-bold text-teal-700">
+          Bienvenue !
+        </h1>
+
+        <p className="text-gray-500 mt-2">
+          Connectez-vous pour accéder à votre compte
+        </p>
+      </div>
+
+      {/* formulaire */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+
+        {/* Champ email */}
+        <div className="relative">
+
+          <User className="absolute left-3 top-3 text-gray-400" size={18} />
+
+          <input
+            {...register("username")}
+            placeholder="Nom d'utilisateur"
+            className="pl-10 w-full border rounded-lg p-3"
+          />
+          {/* Affichage erreur si conditions non acceptées */}
+          {errors.username && (
+            <p className="text-red-500 text-sm">
+              {errors.username.message}
+            </p>
+          )}
+        </div>
+
+
+        {/* Champ mot de passe */}
+        <div className="relative">
+
+          <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+
+          {/* Input mot de passe */}
+          <input
+            type={showPassword ? "text" : "password"} // affichage dynamique
+            {...register("password")}
+            placeholder="Mot de passe"
+            className="pl-10 w-full border rounded-lg p-3"
+          />
+
+          {/* Bouton afficher / cacher mot de passe */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-3"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+        {errors.password && (
+          <p className="text-red-500 text-sm">
+            {errors.password.message}
+          </p>
+        )}
+
+        {/* --- LIGNE : REMEMBER ME + MOT DE PASSE OUBLIÉ --- */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <input
+            id="remember"
+            type="checkbox"
+            {...register("rememberMe")} 
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+          />
+          <label htmlFor="remember" className="ml-2 block text-sm text-gray-700 cursor-pointer select-none">
+            Se souvenir de moi
+          </label>
+        </div>
+
+        <Link 
+          href="/auth/forgotPassword" 
+          className="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline transition"
+        >
+          Mot de passe oublié ?
+        </Link>
+      </div>
+    
+        {/* Bouton inscription */}
+        <button
+          disabled={loading}
+          className="w-full bg-primary-dark text-white py-3 rounded-lg"
+        >
+          {loading ? "Connexion..." : "Se connecter"}
+        </button>
+
+      </form>
+
+      {/* séparateur */}
+      <div className="flex items-center gap-4 my-8">
+        <div className="flex-1 h-px bg-gray-300"></div>
+        <span className="text-gray-400">OU</span>
+        <div className="flex-1 h-px bg-gray-300"></div>
+      </div>
+
+      {/* google */}
+      <button 
+        type="button"
+        // onClick={() => loginWithGoogle()}
+        disabled={loading}
+        className="border rounded-xl py-4 flex items-center justify-center gap-3 mb-4 w-full hover:bg-gray-50"
+      >
+        <FcGoogle size={20} />
+        Continuer avec Google
+      </button>
+
+      {/* apple */}
+      <button className="bg-black text-white rounded-xl py-4 flex items-center justify-center gap-3">
+        <FaApple size={20} />
+        Continuer avec Apple
+      </button>
+
+      {/* register */}
+      <p className="text-center text-gray-500 mt-8">
+        Pas encore de compte ?
+        <Link href="/auth/register">
+          <span className="text-teal-700 ml-1 font-semibold">
+            S&apos;inscrire
+          </span>
+        </Link>
+      </p>
+
+    </div>
+  );
+}

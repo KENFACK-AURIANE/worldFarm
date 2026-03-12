@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/stores/authStore";
+import { useRef, useEffect, useState } from "react";
 import { apiClient } from "@/lib/api/client"; // ton axios/fetch config
 import { API_ENDPOINTS } from "@/lib/api/enpoints";
-import { registerUser } from "@/lib/api/register";
 import { ArrowLeft, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/stores/authStore";
+import toast from "react-hot-toast";
 
-export default function VerifyOTP() {
+export default function VerifyOtpForgotP() {
   const router = useRouter();
   const [seconds, setSeconds] = useState(60);
-  const tempUser = useAuthStore((state) => state.tempUser);
+  
 
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputs = useRef<HTMLInputElement[]>([]);
+  const tempUserForgotP = useAuthStore((state) => state.tempUserForgotP);
 
   useEffect(() => {
     if (seconds === 0) return;
@@ -27,13 +28,13 @@ export default function VerifyOTP() {
   }, [seconds]);
 
   const resendOTP = async () => {
-    if (!tempUser) {
-      alert("Erreur: Utilisateur non trouvé");
+    if (!tempUserForgotP) {
+      alert("Erreur: modification non trouvée");
       return;
     }
 
     try {
-      await apiClient.post(API_ENDPOINTS.AUTH.SEND_OTP, null, {params: {email: tempUser.email, otpType: 'REGISTER'}})
+      await apiClient.post(API_ENDPOINTS.AUTH.SEND_OTP, null, {params: {email: tempUserForgotP.email, otpType: 'PASSWORD_RESET'}})
 
       setSeconds(60);
     } catch {
@@ -54,7 +55,7 @@ export default function VerifyOTP() {
   };
 
   const verifyOTP = async () => {
-    if (!tempUser) {
+    if (!tempUserForgotP) {
       alert("Erreur: Utilisateur non trouvé");
       return;
     }
@@ -65,21 +66,18 @@ export default function VerifyOTP() {
       console.log;
       // 1️⃣ Vérification OTP
       await apiClient.get(API_ENDPOINTS.AUTH.VERIFY_OTP, {
-        params: { email: tempUser.email, otp: code },
+        params: { email: tempUserForgotP.email, otp: code },
       });
 
-      // 2️⃣ Création du compte
-      await registerUser({
-        firstName: tempUser.prenom,
-        lastName: tempUser.name,
-        email: tempUser.email,
-        rawPassword: tempUser.password,
-        otp: code,
-      });
+      // Recuperer l'otp reçu lors du processus de modification
+      useAuthStore.getState().setTempUserOtpForgot(code);
 
-      alert("Inscription réussie !");
-      //   redirect("/verify-otp");
-      router.push("/auth/login"); // red
+      toast.success("Otp valide !",{
+        duration: 4000,
+        position: "top-center",
+      });
+      // alert("Otp valide !");
+      router.push("/auth/modifierPassword"); // red
     } catch (err: any) {
       alert(err.response?.data?.message || "OTP invalide");
     }
@@ -113,7 +111,7 @@ export default function VerifyOTP() {
         <p className="text-gray-500 text-center mb-8">
           Nous avons envoyé un code à 4 chiffres à <br />
           <span className="text-green-700 font-semibold">
-            {tempUser?.email}
+            {tempUserForgotP?.email}
           </span>
         </p>
       </div>

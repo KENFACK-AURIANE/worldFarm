@@ -1,11 +1,13 @@
 export const API_ENDPOINTS = {
   // Auth
   AUTH: {
-    LOGIN: '/api/auth/login',
+    LOGIN: '/login',
     REGISTER: '/signup',
     SEND_OTP: '/send-otp',
     VERIFY_OTP: '/verify-otp',
+    RESET_PASSWORD: '/reset-password',
     REFRESH: '/api/auth/refresh',
+    LOGIN_GOOGLE: '/login/oauth2-client',
   },
   
   // Products

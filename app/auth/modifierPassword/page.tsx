@@ -9,23 +9,24 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Importation des icônes depuis lucide-react pour l'interface
-import {
-  User,       // icône utilisateur
-  Mail,       // icône email
+import {      // icône email
   Lock,       // icône mot de passe
   Eye,        // icône voir mot de passe
   EyeOff,     // icône cacher mot de passe
-  CheckCircle // icône validation règle mot de passe
+  CheckCircle, // icône validation règle mot de passe
+  LockKeyholeOpenIcon,
+  ArrowLeft
 } from "lucide-react";
 
 // Importation du store Zustand qui contient la logique d'authentification
 import { useAuthStore } from "@/lib/stores/authStore";
 
-// Importation du schéma de validation Zod et du type TypeScript du formulaire
-import { RegisterInput, registerSchema } from "@/lib/validation/registerSchema";
 import { apiClient } from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/enpoints";
 import {useRouter } from "next/navigation"
+// Importation du schéma de validation Zod et du type TypeScript du formulaire
+import { ResetPasswordInput, resetPasswordSchema } from "@/lib/validation/resetPasswordSchema";
+import { toast } from "react-hot-toast/headless";
 
 
 // Déclaration du composant principal de la page d'inscription
@@ -42,6 +43,8 @@ export default function RegisterPage() {
 
   // Etat pour gérer le chargement pendant l'inscription
   const [loading, setLoading] = useState(false);
+  const tempUserForgotP = useAuthStore((state) => state.tempUserForgotP);
+  const tempUserOtpForgot = useAuthStore((state) => state.tempUserOtpForgot);
 
   // Initialisation de React Hook Form
   const {
@@ -49,8 +52,8 @@ export default function RegisterPage() {
     handleSubmit, // fonction qui gère la soumission du formulaire
     watch, // permet d'observer les valeurs des champs
     formState: { errors }, // contient les erreurs de validation
-  } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema), // utilisation du schéma Zod pour valider
+  } = useForm<ResetPasswordInput>({
+    resolver: zodResolver(resetPasswordSchema), // utilisation du schéma Zod pour valider
     mode: "onChange", // validation en temps réel lorsque l'utilisateur tape
   });
 
@@ -66,22 +69,25 @@ export default function RegisterPage() {
   ];
 
   // Fonction appelée lorsque le formulaire est soumis
-  const onSubmit = async (data: RegisterInput) => {
+  const onSubmit = async (data: ResetPasswordInput) => {
 
     // On active le mode chargement
     setLoading(true);
 
     try {
 
-      await apiClient.post(API_ENDPOINTS.AUTH.SEND_OTP, null, {params: {email: data.email, otpType: 'REGISTER'}})
+      await apiClient.patch(API_ENDPOINTS.AUTH.RESET_PASSWORD, null, {params: {email: tempUserForgotP?.email, newPassword: data.confirmPassword, otp: tempUserOtpForgot}})
 
       // stocker temporairement les infos du formulaire
-      useAuthStore.getState().setTempUser(data);
+    //   useAuthStore.getState().setTempUser(data);
 
       // Message si l'inscription est réussie
-      alert("Un code a été envoyé à votre email !");
+      toast.success("Otp valide !",{duration: 15000,
+        position: "top-center"});
+
+    //   alert("Un code a été envoyé à votre email !");
       // ✅ Correction : Utilisez le chemin absolu de la route
-      router.push("/auth/verifierOtp"); 
+     router.push("/client/acceuil");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -102,56 +108,33 @@ export default function RegisterPage() {
     // Conteneur principal centré
     <div className="max-w-md mx-auto p-6">
 
+    {/* Back button */}
+      <div>
+        <button onClick={() => router.back()} className="mb-10">
+          <ArrowLeft size={24} />
+        </button>
+      </div>
+
+      {/* Icon */}
+
+      <div className="flex justify-center mb-6">
+        <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center">
+          <LockKeyholeOpenIcon className="text-green-700" size={40} />
+        </div>
+      </div>
+
       {/* Titre de la page */}
       <h1 className="text-3xl font-bold text-center text-primary-dark">
-        Créer un compte
+        Nouveau mot de passe
       </h1>
 
       {/* Sous titre */}
       <p className="text-center text-text-secondary mb-6">
-        Rejoignez WorldFarm dès maintenant
+        Créez un nouveau mot de passe sécurisé pour votre compte
       </p>
 
       {/* Formulaire */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-        {/* Champ prénom */}
-        <div className="relative">
-
-          {/* Icône utilisateur */}
-          <User className="absolute left-3 top-3 text-gray-400" size={18} />
-
-          {/* Input prénom */}
-          <input
-            {...register("prenom")} // connexion du champ au formulaire
-            placeholder="Prénom"
-            className="pl-10 w-full border rounded-lg p-3"
-          />
-        </div>
-
-        {/* Champ nom */}
-        <div className="relative">
-
-          <User className="absolute left-3 top-3 text-gray-400" size={18} />
-
-          <input
-            {...register("name")}
-            placeholder="Nom"
-            className="pl-10 w-full border rounded-lg p-3"
-          />
-        </div>
-
-        {/* Champ email */}
-        <div className="relative">
-
-          <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
-
-          <input
-            {...register("email")}
-            placeholder="Email"
-            className="pl-10 w-full border rounded-lg p-3"
-          />
-        </div>
 
         {/* Champ mot de passe */}
         <div className="relative">
@@ -226,38 +209,19 @@ export default function RegisterPage() {
             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
-
-        {/* Checkbox conditions */}
-        <label className="flex items-center gap-2 text-sm">
-
-          <input type="checkbox" {...register("terms")} />
-
-          <span>
-            J&apos;accepte les{" "}
-            <span className="text-green-700 font-medium">
-              conditions d&apos;utilisation
-            </span>{" "}
-            et la{" "}
-            <span className="text-green-700 font-medium">
-              politique de confidentialité
-            </span>
-          </span>
-
-        </label>
-
-        {/* Affichage erreur si conditions non acceptées */}
-        {errors.terms && (
+        {errors.confirmPassword && (
           <p className="text-red-500 text-sm">
-            {errors.terms.message}
+            {errors.confirmPassword.message}
           </p>
         )}
+
 
         {/* Bouton inscription */}
         <button
           disabled={loading}
           className="w-full bg-primary-dark text-white py-3 rounded-lg"
         >
-          {loading ? "Inscription..." : "S'inscrire"}
+          {loading ? "Réinitialisation..." : "Réinitialiser le mot de passe"}
         </button>
 
       </form>
