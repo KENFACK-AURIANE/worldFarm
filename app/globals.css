@@ -73,19 +73,19 @@
   /* Shadow */
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg),
-  --shadow-lg: var(--shadow-xl);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
   --shadow-card: var(--shadow-card);
   --shadow-dropdown: var(--shadow-dropdown);
 
   /* --- SPACING (Espacements) --- */
-  --spacing-xs: var(--spacing-xs);
+  /* --spacing-xs: var(--spacing-xs);
   --spacing-sm: var(--spacing-sm);
   --spacing-md: var(--spacing-md);
   --spacing-lg: var(--spacing-lg);
   --spacing-xl: var(--spacing-xl);
   --spacing-2xl: var(--spacing-2xl);
-  --spacing-3xl: var(--spacing-3xl);
+  --spacing-3xl: var(--spacing-3xl); */
 
   /* --- RADIUS (Arrondis) --- */
   --radius-sm: var(--radius-sm);
