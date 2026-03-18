@@ -9,6 +9,10 @@ export const API_ENDPOINTS = {
     REFRESH: '/api/auth/refresh',
     LOGIN_GOOGLE: '/login/oauth2-client',
   },
+  // Caroussel
+  CAROUSSEL: {
+    FEATURE_ZONE: (zone: string) => `/featured/zone/${zone}`,
+  },
   
   // Products
   PRODUCTS: {

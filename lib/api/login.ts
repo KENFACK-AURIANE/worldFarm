@@ -6,8 +6,17 @@ import { AuthResponse, LoginCredentials } from '../types/auth.types'
 export const loginUser = async (data: LoginCredentials): Promise<AuthResponse> => {
     try {
         
-        const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, data)
-        return response.data
+        const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, data);
+        
+        // Extraction du token (vérifiez si c'est response.data.token ou .accessToken)
+        const { token } = response.data; 
+
+        if (token) {
+            // SAUVEGARDE CRUCIALE ICI
+            localStorage.setItem("token", token); 
+        }
+
+        return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         if (error.response) {
@@ -17,3 +26,6 @@ export const loginUser = async (data: LoginCredentials): Promise<AuthResponse> =
         }
     }
 }
+
+
+

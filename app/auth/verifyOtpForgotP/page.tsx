@@ -102,15 +102,15 @@ export default function VerifyOtpForgotP() {
 
       {/* Title */}
       <div>
-        <h1 className="text-3xl font-bold text-green-700 text-center mb-3">
+        <h1 className="text-3xl font-bold text-primary text-center mb-3">
           Vérification
         </h1>
 
         {/* Description */}
 
-        <p className="text-gray-500 text-center mb-8">
+        <p className="text-text-secondary text-center mb-8">
           Nous avons envoyé un code à 4 chiffres à <br />
-          <span className="text-green-700 font-semibold">
+          <span className="text-primary font-semibold">
             {tempUserForgotP?.email}
           </span>
         </p>
@@ -129,7 +129,7 @@ export default function VerifyOtpForgotP() {
             maxLength={1}
             value={digit}
             onChange={(e) => handleChange(e.target.value, index)}
-            className="w-16 h-16 border rounded-xl text-center text-xl outline-none focus:border-green-600"
+            className="w-16 h-16 border rounded-xl text-center text-xl outline-none focus:border-succes"
           />
         ))}
       </div>
@@ -137,7 +137,7 @@ export default function VerifyOtpForgotP() {
       {/* Verify button */}
       <button
         onClick={verifyOTP}
-        className="bg-green-700 text-white py-4 rounded-xl font-semibold text-lg w-full"
+        className="bg-primary text-white py-4 rounded-xl font-semibold text-lg w-full"
       >
         Vérifier
       </button>
@@ -146,7 +146,7 @@ export default function VerifyOtpForgotP() {
       <p
         onClick={seconds === 0 ? resendOTP : undefined}
         className={`text-center mt-6 ${
-          seconds === 0 ? "text-green-700 cursor-pointer" : "text-gray-400"
+          seconds === 0 ? "text-primary cursor-pointer" : "text-text-secondary"
         }`}
       >
         {seconds > 0

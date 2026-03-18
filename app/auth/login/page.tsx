@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import Cookies from 'js-cookie';
 
 // Importation de React Hook Form pour gérer le formulaire
 import { useForm } from "react-hook-form";
@@ -88,39 +89,75 @@ export default function LoginPage() {
 
 
   // Fonction appelée lorsque le formulaire est soumis
-  const onSubmit = async (data: LoginInput) => {
+  // const onSubmit = async (data: LoginInput) => {
 
-    // On active le mode chargement
-    setLoading(true);
+  //   // On active le mode chargement
+  //   setLoading(true);
 
-    try {
+  //   try {
 
-      await apiClient.post(API_ENDPOINTS.AUTH.LOGIN,null,{params:{
-        username: data.username,
-        password: data.password,
-        rememberMe: data.rememberMe
-      }} )
+  //     const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN,null,{params:{
+  //       username: data.username,
+  //       password: data.password,
+  //       rememberMe: data.rememberMe
+  //     }} )
 
-      // stocker temporairement les infos du formulaire
-      useAuthStore.getState().setTempUserL(data);
+  //     // 2. RÉCUPÉRATION ET STOCKAGE DU TOKEN (L'étape manquante 🚨)
+  //     // Vérifie si ton API renvoie 'token' ou 'accessToken'
+  //     const token = response.data.access_token; 
+
       
-      // Message si l'inscription est réussie
-      alert("Un code a été envoyé à votre email !");
-      // ✅ Correction : Utilisez le chemin absolu de la route
-      router.push("/client/acceuil"); 
+  //     if (token) {
+  //       localStorage.setItem("token", token); // Ton intercepteur pourra enfin le lire !
+  //     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
+  //     // stocker temporairement les infos du formulaire
+  //     useAuthStore.getState().setTempUserL(data);
+      
+  //     // Message si l'inscription est réussie
+  //     alert("Un code a été envoyé à votre email !");
+  //     // ✅ Correction : Utilisez le chemin absolu de la route
+  //     router.push("/client/acceuil"); 
 
-      // Message si une erreur survient
-      alert(err.message);
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (err: any) {
 
-    } finally {
+  //     // Message si une erreur survient
+  //     alert(err.message);
 
-      // On désactive le chargement
-      setLoading(false);
+  //   } finally {
+
+  //     // On désactive le chargement
+  //     setLoading(false);
+  //   }
+  // };
+
+  const onSubmit = async (data: LoginInput) => {
+  setLoading(true);
+  try {
+    const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, null, {
+      params: { username: data.username, password: data.password }
+    });
+
+    // On récupère les deux jetons renvoyés par ton serveur Java
+    const { access_token, refresh_token } = response.data;
+
+    if (access_token) {
+      // Badge court (Cookie pour le Middleware)
+      Cookies.set("token", access_token, { expires: 30, secure: true });
+      // Badge long (LocalStorage car le Middleware n'en a pas besoin)
+      localStorage.setItem("refresh_token", refresh_token);
+      
+      router.push("/client/acceuil");
     }
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    alert("Erreur de connexion: " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
 
@@ -143,11 +180,11 @@ export default function LoginPage() {
           className="w-30  mb-5"
         />
 
-        <h1 className="text-3xl font-bold text-teal-700">
+        <h1 className="text-3xl font-bold text-primary-dark">
           Bienvenue !
         </h1>
 
-        <p className="text-gray-500 mt-2">
+        <p className="text-text-secondary mt-2">
           Connectez-vous pour accéder à votre compte
         </p>
       </div>
@@ -159,12 +196,12 @@ export default function LoginPage() {
         {/* Champ email */}
         <div className="relative">
 
-          <User className="absolute left-3 top-3 text-gray-400" size={18} />
+          <User className="absolute left-3 top-3 text-text-primary" size={18} />
 
           <input
             {...register("username")}
             placeholder="Nom d'utilisateur"
-            className="pl-10 w-full border rounded-lg p-3"
+            className="pl-10 w-full border rounded-lg p-3 "
           />
           {/* Affichage erreur si conditions non acceptées */}
           {errors.username && (
@@ -176,9 +213,9 @@ export default function LoginPage() {
 
 
         {/* Champ mot de passe */}
-        <div className="relative">
+        <div className="relative border-surface">
 
-          <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+          <Lock className="absolute left-3 top-3 text-text-primary" size={18} />
 
           {/* Input mot de passe */}
           <input
@@ -198,28 +235,28 @@ export default function LoginPage() {
           </button>
         </div>
         {errors.password && (
-          <p className="text-red-500 text-sm">
+          <p className="text-error text-sm">
             {errors.password.message}
           </p>
         )}
 
         {/* --- LIGNE : REMEMBER ME + MOT DE PASSE OUBLIÉ --- */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 ">
         <div className="flex items-center">
           <input
             id="remember"
             type="checkbox"
             {...register("rememberMe")} 
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+            className="h-4 w-4 text-primary focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
           />
-          <label htmlFor="remember" className="ml-2 block text-sm text-gray-700 cursor-pointer select-none">
+          <label htmlFor="remember" className="ml-2 block text-sm text-text-primary cursor-pointer select-none">
             Se souvenir de moi
           </label>
         </div>
 
         <Link 
           href="/auth/forgotPassword" 
-          className="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline transition"
+          className="text-sm font-medium text-primary hover:text-primary hover:underline transition"
         >
           Mot de passe oublié ?
         </Link>

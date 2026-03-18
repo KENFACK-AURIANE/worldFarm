@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { apiClient } from "@/lib/api/client"; // ton axios/fetch config
+import { apiClient } from "@/lib/api/client"; 
 import { API_ENDPOINTS } from "@/lib/api/enpoints";
 import { registerUser } from "@/lib/api/register";
 import { ArrowLeft, Mail } from "lucide-react";

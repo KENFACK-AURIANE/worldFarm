@@ -123,7 +123,7 @@ export default function ForgotPasswordPage() {
         </div>
         {/* Affichage erreur si conditions non acceptées */}
           {errors.email && (
-            <p className="text-red-500 text-sm">
+            <p className="text-error text-sm">
               {errors.email.message}
             </p>
           )}
@@ -139,7 +139,7 @@ export default function ForgotPasswordPage() {
         <div>
         <Link 
           href="/auth/login" 
-          className="text-sm flex flex-row gap-5 justify-center font-medium text-blue-600 hover:text-blue-500 hover:underline transition"
+          className="text-sm flex flex-row gap-5 justify-center font-medium text-primary hover:text-primary hover:underline transition"
         >
           <ArrowLeft size={24} />
           Retour à la connexion

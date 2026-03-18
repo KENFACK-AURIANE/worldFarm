@@ -139,7 +139,7 @@ export default function RegisterPage() {
         {/* Champ mot de passe */}
         <div className="relative">
 
-          <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+          <Lock className="absolute left-3 top-3 text-text-primary" size={18} />
 
           {/* Input mot de passe */}
           <input
@@ -191,7 +191,7 @@ export default function RegisterPage() {
         {/* Champ confirmation mot de passe */}
         <div className="relative">
 
-          <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+          <Lock className="absolute left-3 top-3 text-text-primary-400" size={18} />
 
           <input
             type={showConfirm ? "text" : "password"}

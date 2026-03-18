@@ -1,6 +1,7 @@
 // Importation du hook useState de React pour gérer des états locaux
 'use client'
 import { useState } from "react";
+import Link from "next/link";
 
 // Importation de React Hook Form pour gérer le formulaire
 import { useForm } from "react-hook-form";
@@ -26,6 +27,8 @@ import { RegisterInput, registerSchema } from "@/lib/validation/registerSchema";
 import { apiClient } from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/enpoints";
 import {useRouter } from "next/navigation"
+import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
 
 
 // Déclaration du composant principal de la page d'inscription
@@ -261,6 +264,39 @@ export default function RegisterPage() {
         </button>
 
       </form>
+      {/* séparateur */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 h-px bg-gray-300"></div>
+              <span className="text-gray-400">OU</span>
+              <div className="flex-1 h-px bg-gray-300"></div>
+            </div>
+      
+            {/* google */}
+            <button 
+              type="button"
+              // onClick={() => loginWithGoogle()}
+              disabled={loading}
+              className="border rounded-xl py-4 flex items-center justify-center gap-3 mb-4 w-full hover:bg-gray-50"
+            >
+              <FcGoogle size={20} />
+              Continuer avec Google
+            </button>
+      
+            {/* apple */}
+            <button className="border rounded-xl py-4 flex items-center justify-center gap-3 text-white bg-black mb-4 w-full hover:bg-gray-50">
+              <FaApple size={20} />
+              Continuer avec Apple
+            </button>
+      
+            {/* register */}
+            <p className="text-center text-gray-500 mt-8">
+              Déjà un compte ?
+              <Link href="/auth/login">
+                <span className="text-teal-700 ml-1 font-semibold">
+                  Se connecter
+                </span>
+              </Link>
+            </p>
 
     </div>
   );

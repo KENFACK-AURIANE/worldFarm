@@ -4,6 +4,9 @@
 
 /* Importation de vos fichiers de variables brutes */
 @import "../styles/designSystem/colors.css";
+@import "../styles/designSystem/shadows.css";
+@import "../styles/designSystem/spacing.css";
+@import "../styles/designSystem/typography.css";
 /* Ajoutez ici vos autres imports si nécessaire : 
    @import "../styles/designSystem/spacing.css"; 
 */
@@ -66,6 +69,57 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+  /* Shadow */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg),
+  --shadow-lg: var(--shadow-xl);
+  --shadow-card: var(--shadow-card);
+  --shadow-dropdown: var(--shadow-dropdown);
+
+  /* --- SPACING (Espacements) --- */
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-2xl: var(--spacing-2xl);
+  --spacing-3xl: var(--spacing-3xl);
+
+  /* --- RADIUS (Arrondis) --- */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* --- FONTS (Polices) --- */
+  --font-primary: var(--font-primary);
+  --font-heading: var(--font-heading);
+
+  /* --- TEXT SIZES (Tailles de texte) --- */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+
+  /* --- LINE HEIGHTS (Interlignes) --- */
+  --leading-tight: var(--leading-tight);
+  --leading-normal: var(--leading-normal);
+  --leading-relaxed: var(--leading-relaxed);
+
+  /* --- FONT WEIGHTS (Graisses) --- */
+  --font-weight-normal: var(--font-normal);
+  --font-weight-medium: var(--font-medium);
+  --font-weight-semibold: var(--font-semibold);
+  --font-weight-bold: var(--font-bold);
 }
 
 /* --- VARIABLES PAR DÉFAUT & RESET --- */
