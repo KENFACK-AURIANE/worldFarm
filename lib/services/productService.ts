@@ -13,6 +13,7 @@ query GetProducts($categoryId: String) {
       price
       imageUrl
       categoryId
+      originalPrice
       shop {
         name
         slug
@@ -23,4 +24,26 @@ query GetProducts($categoryId: String) {
   }
 
 }
+`;
+
+export const GET_PRODUCT_BY_ID = `
+  query GetProductDetails($productId: String!) {
+    findProductById(productId: $productId) {
+      id
+      name
+      price
+      imageUrl
+      discount
+      imagesUrl
+      rating
+      reviewCount
+      originalPrice
+      shop {
+        name
+        slug
+        logo
+        isVerified
+      }
+    }
+  }
 `;

@@ -8,7 +8,7 @@ import Navigation from "./Navigation"
 
 export default function Header(){
     return(
-        <nav>
+        <nav className="sticky top-0 z-50 w-full shadow-md">
             <div className="flex flex-row gap-5 justify-between bg-green-800 h-20 p-5 items-center overflow-x-hidden overflow-y-hidden  ">
                 <Image
                     src="/images/logo.jpg"
