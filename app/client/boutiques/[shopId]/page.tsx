@@ -1,13 +1,24 @@
+
 import { queryGraphql } from "@/lib/api/apiGraphql";
 import Image from "next/image";
 import { Store, ShieldCheck, BadgeCheck } from "lucide-react";
 import { FETCH_SHOP_BY_ID } from "@/lib/services/shopService";
+
+
+
 
 // On définit le type de params comme une Promesse (spécifique à Next.js 15/16)
 interface Props {
   params: Promise<{ shopId: string }>;
 }
 export default async function ShopDetailPage({ params }: Props) {
+
+
+  
+  // const [quantity, setQuantity] = useState(1);
+  
+  // const [selectedColor, setSelectedColor] = useState('Marron');
+
   // 1. Récupérer l'ID de l'URL
   const { shopId } = await params; // On attend que les params soient disponibles
 
@@ -69,6 +80,12 @@ export default async function ShopDetailPage({ params }: Props) {
         </div>
       </div>
     </div>
+
+
+  
+    
+    
+
   );
 }
 

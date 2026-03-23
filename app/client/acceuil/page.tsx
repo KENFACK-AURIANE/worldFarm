@@ -116,7 +116,10 @@ const Page = () => {
 
   return (
     <div >
-      <Header />
+      <div className="sticky top-0 z-50 w-full shadow-md">
+        <Header />
+      </div>
+      
       <FeaturedCarousel />
       {/* boutiques et status */}
       <div className="mb-10">

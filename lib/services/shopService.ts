@@ -6,6 +6,7 @@ export const GET_TOP_SHOPS = `
       isVerified
       name
       logoUrl
+      
     }
   }
 }
