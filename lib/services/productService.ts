@@ -34,6 +34,8 @@ export const GET_PRODUCT_BY_ID = `
       price
       imageUrl
       description
+      minQuantity
+      maxQuantity
       discount
       imagesUrl
       categoryId
@@ -41,7 +43,13 @@ export const GET_PRODUCT_BY_ID = `
       reviewCount
       originalPrice
       stock
+      tags
       characteristics
+      dimensions{
+        length
+        width
+        height
+      }
       colors {
         name
         hexCode

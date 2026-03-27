@@ -6,13 +6,13 @@ import Header from "@/components/layout/Header/Header";
 import { GET_CATEGORIES } from "@/lib/services/categoryService";
 import { GET_PRODUCTS } from "@/lib/services/productService";
 import { useCallback, useEffect, useState } from "react";
-import ProductGrid from "@/components/features/ProductGrid";
-import CategoryFilter from "@/components/features/CategoryFilter";
+import ProductGrid from "@/components/features/cart/ProductGrid";
+import CategoryFilter from "@/components/features/cart/CategoryFilter";
 // import { apiClient } from "@/lib/api/client";
 // import { getToken } from "@/lib/utils/auth";
 import { ArrowRight, History, Store } from "lucide-react";
 import { GET_TOP_SHOPS } from "@/lib/services/shopService";
-import ShopGrid from "@/components/features/ShopGrid";
+import ShopGrid from "@/components/features/cart/ShopGrid";
 import Footer from "@/components/layout/Footer/Footer";
 
 interface Category {

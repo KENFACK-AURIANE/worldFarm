@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"; // CRUCIAL : autorise le useState et le onClick
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import { useState } from 'react';
 import { Check } from 'lucide-react';
 
-export default function ColorSelectorClient({ colors }: { colors: any[] }) {
-  // 1. On initialise le state avec la première couleur
-  const [selectedId, setSelectedId] = useState(colors[0]?.id);
+export default function ColorSelectorClient({
+  colors,
+  selectedId,
+  onChange,
+}: {
+  colors: any[];
+  selectedId: string;
+  onChange: (id: string) => void;
+}) {
 
   return (
     <div className="grid grid-cols-2 gap-3 mt-4">
@@ -16,26 +22,34 @@ export default function ColorSelectorClient({ colors }: { colors: any[] }) {
         return (
           <button
             key={color.name}
-            // 2. Le clic met à jour le state local
-            onClick={() => setSelectedId(color.name)}
-            className={`flex flex-row w-40 p-2 rounded-2xl border-2  items-center  gap-3 transition-all ${
-              isSelected ? 'border-teal-600 bg-teal-50' : 'border-gray-200 bg-white'
+            onClick={() => onChange(color.name)}
+            className={`flex flex-row w-40 p-2 rounded-2xl border-2 items-center gap-3 transition-all ${
+              isSelected
+                ? 'border-teal-600 bg-teal-50'
+                : 'border-gray-200 bg-white'
             }`}
           >
-            {/* Pastille de couleur */}
+            {/* ✅ Pastille AVEC hexCode */}
             <div 
               className="w-8 h-8 rounded-full border flex items-center justify-center"
-              style={{ backgroundColor: isSelected ? color.hexCode : color.hexCode }}
+              style={{ backgroundColor: color.hexCode }}
             >
               {isSelected && <Check size={16} />}
             </div>
 
             {/* Texte */}
             <div className="text-left">
-              <p className={`font-bold text-sm ${isSelected ? 'text-teal-800' : 'text-slate-800'}`}>
+              <p className={`font-bold text-sm ${
+                isSelected ? 'text-teal-800' : 'text-slate-800'
+              }`}>
                 {color.name}
               </p>
-              {isSelected && <p className="text-[10px] text-teal-600">Sélectionné</p>}
+
+              {isSelected && (
+                <p className="text-[10px] text-teal-600">
+                  Sélectionné
+                </p>
+              )}
             </div>
           </button>
         );

@@ -6,8 +6,10 @@ export const API_ENDPOINTS = {
     SEND_OTP: '/send-otp',
     VERIFY_OTP: '/verify-otp',
     RESET_PASSWORD: '/reset-password',
+    USER_INFOS: '/user-infos',
     REFRESH: '/api/auth/refresh',
     LOGIN_GOOGLE: '/login/oauth2-client',
+    UPDATE_PROFILE: '/update-profile',
   },
   // Caroussel
   CAROUSSEL: {

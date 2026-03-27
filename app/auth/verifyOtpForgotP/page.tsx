@@ -84,7 +84,7 @@ export default function VerifyOtpForgotP() {
   };
 
   return (
-    <div className="max-w-md mx-auto ">
+    <div className="max-w-md mx-auto items-center p-6">
       {/* Back button */}
       <div>
         <button onClick={() => router.back()} className="mb-10">
@@ -137,7 +137,7 @@ export default function VerifyOtpForgotP() {
       {/* Verify button */}
       <button
         onClick={verifyOTP}
-        className="bg-primary text-white py-4 rounded-xl font-semibold text-lg w-full"
+        className="bg-primary text-white py-4 rounded-xl font-semibold text-lg w-90"
       >
         Vérifier
       </button>

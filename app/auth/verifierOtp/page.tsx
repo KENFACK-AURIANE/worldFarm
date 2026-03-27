@@ -139,7 +139,7 @@ export default function VerifyOTP() {
       {/* Verify button */}
       <button
         onClick={verifyOTP}
-        className="bg-green-700 text-white py-4 rounded-xl font-semibold text-lg w-full"
+        className="bg-green-700 text-white py-4 rounded-xl font-semibold text-lg w-90"
       >
         Vérifier
       </button>
