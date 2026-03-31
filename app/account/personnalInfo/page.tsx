@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { User, Mail, Phone, Calendar, Camera, ChevronLeft } from "lucide-react";
-import { ArrowLeft, Headset } from "lucide-react";
+
+import { User, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Informations from "@/components/layout/SectionAndMenu/Informations";
 
@@ -11,7 +10,7 @@ export default function PersonnalInfo() {
 
     const router = useRouter();
   return (
-    <div className="bg-gray-100 min-h-screen pb-24">
+    <div className=" min-h-screen pb-24">
       
       {/* HEADER */}
       <div className="bg-teal-700 text-white p-4 flex items-center gap-3">

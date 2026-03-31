@@ -1,25 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
-// export async function queryGraphql(query:string, variables = {}){
-//     const res = await fetch(GRAPHQL_URL!, {
-//         method: "POST",
-//         headers: {
-//             "content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             query,
-//             variables
-//         })
-//     });
-//     const json = await res.json();
 
-//     if(json.errors) {
-//         throw new Error(json.errors[0].message);
-//     }
-
-//     return json.data;
-// }
-// Importez votre instance axios configurée
 import {apiClient} from "./client"; 
 
 export async function queryGraphql(query:string, variables = {}) {

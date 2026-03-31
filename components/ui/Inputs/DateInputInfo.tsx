@@ -20,10 +20,6 @@ export default function DateInputInfo({ label, value, onClick }: any) {
           className="flex-1 outline-none bg-transparent cursor-pointer text-gray-800"
         />
         
-        {/* Petit indicateur visuel */}
-        <span className="text-[10px] font-bold text-teal-600 bg-teal-50 px-2 py-0.5 rounded-lg">
-          MODIFIER
-        </span>
       </div>
     </div>
   );

@@ -16,8 +16,6 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
-// Importation du store Zustand qui contient la logique d'authentification
-import { useAuthStore } from "@/lib/stores/authStore";
 
 // Importation du schéma de validation Zod et du type TypeScript du formulaire
 import { apiClient } from "@/lib/api/client";
@@ -47,7 +45,7 @@ export default function LoginPage() {
   const {
     register, // fonction pour connecter les inputs au formulaire
     handleSubmit, // fonction qui gère la soumission du formulaire
-    formState: { errors }, // contient les erreurs de validation
+    formState: { errors },    //contient les erreurs de validation
   } = useForm<LoginInput>({
     
     resolver: zodResolver(loginSchema),
@@ -59,85 +57,34 @@ export default function LoginPage() {
     mode: "onChange", // validation en temps réel lorsque l'utilisateur tape
   });
 
-  // --- LOGIQUE CONNEXION GOOGLE ---
-  // const handleGoogleLogin = async (googleToken: string) => {
-  //   setLoading(true);
-  //   try {
-  //     // Envoi du provider et du token au backend comme demandé
-  //     await apiClient.post(API_ENDPOINTS.AUTH.LOGIN_GOOGLE,{params:{
-  //       provider: "GOOGLE",
-  //       token: googleToken,
-  //     } } );
-
-  //     // Gestion de la réponse (ajustez selon votre API)
-  //     alert("Connexion Google réussie !");
-  //     router.push("/client/acceuil");
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   } catch (err: any) {
-  //     alert("Erreur Google: " + (err.response?.data?.message || err.message));
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // // Initialisation du bouton Google (nécessite le GoogleOAuthProvider dans votre layout)
-  // const loginWithGoogle = useGoogleLogin({
-  //   onSuccess: (tokenResponse) => handleGoogleLogin(tokenResponse.access_token),
-  //   onError: () => alert("La connexion Google a échoué"),
-  // });
+  
 
 
 
-  // Fonction appelée lorsque le formulaire est soumis
-  // const onSubmit = async (data: LoginInput) => {
-
-  //   // On active le mode chargement
-  //   setLoading(true);
-
-  //   try {
-
-  //     const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN,null,{params:{
-  //       username: data.username,
-  //       password: data.password,
-  //       rememberMe: data.rememberMe
-  //     }} )
-
-  //     // 2. RÉCUPÉRATION ET STOCKAGE DU TOKEN (L'étape manquante 🚨)
-  //     // Vérifie si ton API renvoie 'token' ou 'accessToken'
-  //     const token = response.data.access_token; 
-
-      
-  //     if (token) {
-  //       localStorage.setItem("token", token); // Ton intercepteur pourra enfin le lire !
-  //     }
-
-  //     // stocker temporairement les infos du formulaire
-  //     useAuthStore.getState().setTempUserL(data);
-      
-  //     // Message si l'inscription est réussie
-  //     alert("Un code a été envoyé à votre email !");
-  //     // ✅ Correction : Utilisez le chemin absolu de la route
-  //     router.push("/client/acceuil"); 
-
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   } catch (err: any) {
-
-  //     // Message si une erreur survient
-  //     alert(err.message);
-
-  //   } finally {
-
-  //     // On désactive le chargement
-  //     setLoading(false);
-  //   }
-  // };
 
   const onSubmit = async (data: LoginInput) => {
   setLoading(true);
   try {
-    const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, null, {
-      params: { username: data.username, password: data.password }
-    });
+    // const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, null, {
+    //   params: { username: data.username, password: data.password }
+    // });
+    const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, 
+    // 1. LE BODY (JSON) - 2ème argument
+    { 
+      username: data.username, 
+      password: data.password, 
+      rememberMe: data.rememberMe || false 
+    },
+    // 2. LES PARAMS (URL) - 3ème argument
+    { 
+      params: { 
+        username: data.username, 
+        password: data.password 
+      } 
+    }
+  );
+
+
 
     // On récupère les deux jetons renvoyés par ton serveur Java
     const { access_token, refresh_token } = response.data;

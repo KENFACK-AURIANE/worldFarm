@@ -13,7 +13,7 @@ export default function VerifyOtpForgotP() {
   const [seconds, setSeconds] = useState(60);
   
 
-  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", "","",""]);
   const inputs = useRef<HTMLInputElement[]>([]);
   const tempUserForgotP = useAuthStore((state) => state.tempUserForgotP);
 
@@ -49,7 +49,7 @@ export default function VerifyOtpForgotP() {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputs.current[index + 1]?.focus();
     }
   };
@@ -109,7 +109,7 @@ export default function VerifyOtpForgotP() {
         {/* Description */}
 
         <p className="text-text-secondary text-center mb-8">
-          Nous avons envoyé un code à 4 chiffres à <br />
+          Nous avons envoyé un code à 6 chiffres à <br />
           <span className="text-primary font-semibold">
             {tempUserForgotP?.email}
           </span>

@@ -14,10 +14,6 @@ interface Props {
 export default async function ShopDetailPage({ params }: Props) {
 
 
-  
-  // const [quantity, setQuantity] = useState(1);
-  
-  // const [selectedColor, setSelectedColor] = useState('Marron');
 
   // 1. Récupérer l'ID de l'URL
   const { shopId } = await params; // On attend que les params soient disponibles

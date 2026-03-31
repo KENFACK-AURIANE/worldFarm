@@ -24,15 +24,15 @@ export default function OrderSummary() {
 
       <div className="mt-4 bg-white p-4 rounded-xl text-sm">
         <p className="font-semibold text-blue-600 mb-2">
-          🛡️ Protection des commandes WorldFarm Market
+          Protection des commandes WorldFarm Market
         </p>
 
         <ul className="space-y-1 text-gray-600">
-          <li>🔒 Paiement sécurisé</li>
-          <li>🚚 Suivi de livraison</li>
-          <li>💸 Protection remboursement</li>
-          <li>📞 Assistance 24h/24, 7j/7</li>
-          <li>🛡️ Confidentialité des données</li>
+          <li>Paiement sécurisé</li>
+          <li> Suivi de livraison</li>
+          <li>Protection remboursement</li>
+          <li> Assistance 24h/24, 7j/7</li>
+          <li> Confidentialité des données</li>
         </ul>
       </div>
     </div>

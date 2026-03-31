@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"; // Permet l'interactivité (clics) côté navigateur
+"use client"; 
 import { LayoutGrid } from "lucide-react";
 import Image from "next/image";
 

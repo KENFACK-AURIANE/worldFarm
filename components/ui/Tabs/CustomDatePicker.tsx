@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { 
   format, addMonths, subMonths, startOfMonth, endOfMonth, 
   startOfWeek, endOfWeek, isSameMonth, isSameDay, 
   eachDayOfInterval, setYear, getYear 
 } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ChevronLeft, ChevronRight, Pencil, Calendar } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Pencil } from 'lucide-react';
 
 interface CustomDatePickerProps {
   onSelect: (date: Date) => void;

@@ -40,8 +40,11 @@ export default function ProfilePage() {
               <Link href="/account/personnalInfo">
                 <MenuItem icon={<User />} title="Informations personnelles" subtitle="Nom, email, téléphone" />
               </Link>
+              <Link href="/account/adresse">
+                <MenuItem icon={<MapPin />} title="Adresses de livraison" subtitle="Aucune adresse" />
+              </Link>
               
-              <MenuItem icon={<MapPin />} title="Adresses de livraison" subtitle="Aucune adresse" />
+              
               <MenuItem icon={<CreditCard />} title="Moyens de paiement" subtitle="Mobile Money, cartes" />
             </Section>
 
