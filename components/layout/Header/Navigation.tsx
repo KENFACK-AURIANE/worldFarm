@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
-import {Bell, Briefcase, Grid, Home, Mail, Menu, ShoppingCart, Store, Tag, X } from 'lucide-react'
+import {Bell, Briefcase, Grid, Home, Mail, Menu, ShoppingCart, Store, User, X } from 'lucide-react'
 
 
 const Navigation = () => {
@@ -30,8 +30,8 @@ const Navigation = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/client/offres"  className={ pathname === '/client/offres' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
-                        Offres
+                    <Link href="/account/profile"  className={ pathname === '/account/profile' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
+                        Profil
                     </Link>
                 </li>
                 <li>
@@ -75,8 +75,8 @@ const Navigation = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/client/offres" className={ pathname === '/client/offres' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
-                                <Tag />Offres
+                            <Link href="/account/profile" className={ pathname === '/account/profile' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
+                                <User />Profil
                             </Link>
                         </li>
                         <li>
