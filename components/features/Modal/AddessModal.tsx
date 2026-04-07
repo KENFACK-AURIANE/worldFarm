@@ -38,7 +38,7 @@ export default function AddressModal({
     longitude: 0,
   });
 
-  // 👉 charger les pays quand le modal s’ouvre
+  // charger les pays quand le modal s’ouvre
   useEffect(() => {
     if (open) {
       getCountries().then(setCountries);

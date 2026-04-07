@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ColorSelectorClient from "@/components/ui/Button/ColorSelectorClient";
 import QuantitySelector from "@/components/ui/Button/QuantitySelector";
-import { CheckCircle2, ChevronLeft, CreditCard, Heart, HelpCircle, Home,  MapPin, MessageSquare,Lock, Palette, Shield, ShieldCheck, ShoppingCart, Store, Truck } from "lucide-react";
+import { CheckCircle2, ChevronLeft, CreditCard, Heart, HelpCircle, Home,  MapPin, MessageSquare,Lock, Palette, Shield, ShieldCheck, ShoppingCart, Store, Truck, Headset } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ProductTabs from "@/components/ui/Tabs/ProductTabs";
@@ -66,7 +66,7 @@ export default function ProductClient({ product }: any) {
           <div className="flex items-center gap-2"><Lock size={14} className="text-green-600" /> Paiement sécurisé</div>
           <div className="flex items-center gap-2"><Truck size={14} className="text-green-600" /> Suivi de livraison</div>
           <div className="flex items-center gap-2"><CreditCard size={14} className="text-green-600" /> Protection remboursement</div>
-          <div className="flex items-center gap-2"><HelpCircle size={14} className="text-green-600" /> Assistance 24h/24, 7j/7</div>
+          <div className="flex items-center gap-2"><Headset size={14} className="text-green-600" /> Assistance 24h/24, 7j/7</div>
           <div className="flex items-center gap-2"><Shield size={14} className="text-green-600" /> Confidentialité des données</div>
         </div>
         

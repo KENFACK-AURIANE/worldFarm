@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Star } from "lucide-react";
 import Link from "next/link"; 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,7 +30,7 @@ export default function ShopCard({ s }: { s: any }) {
         {/* Note  */}
         <div className="bg-rating/20 flex items-center  gap-2 px-3 py-1 rounded-full">
           {/* L'étoile reste toujours présente */}
-          <span className="text-rating text-sm">★</span>
+          <span className="text-rating text-sm"><Star /></span>
           
           {/* Affiche le rating du backend ou 0.0 s'il est null */}
           <span className="text-rating text-sm font-bold">

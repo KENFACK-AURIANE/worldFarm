@@ -9,7 +9,7 @@ export default function DateInputInfo({ label, value, onClick }: any) {
       {/* On rend toute la div cliquable pour ouvrir le calendrier */}
       <div 
         onClick={onClick}
-        className="flex items-center gap-2 bg-white border rounded-xl px-3 py-2 mt-1 cursor-pointer hover:border-teal-500 transition-colors"
+        className="flex items-center gap-2 bg-white  cursor-pointer hover:border-teal-500 transition-colors border border-gray-300  rounded-xl px-3 py-2 mt-1 h-15"
       >
         <Calendar size={18} className="text-gray-400" />
         

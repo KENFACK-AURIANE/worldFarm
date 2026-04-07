@@ -95,8 +95,8 @@ export default function LoginPage() {
       // Badge long (LocalStorage car le Middleware n'en a pas besoin)
       localStorage.setItem("refresh_token", refresh_token);
       
-      // router.push("/client/acceuil");
-      router.push("/account/profile");
+      router.push("/client/acceuil");
+      // router.push("/account/profile");
     }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

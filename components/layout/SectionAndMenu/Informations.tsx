@@ -15,7 +15,7 @@ interface CountryData {
   currency:  string;
 }
 
-import { BadgeCheck, Camera, Mail, Mars, Phone, User, Venus } from "lucide-react";
+import { AlertTriangle, BadgeCheck, Camera, Mail, Mars, Phone, User, Venus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getUserInfos } from "@/lib/api/getUserInfos";
 import InputInfo from "@/components/ui/Inputs/InputInfo"
@@ -30,7 +30,7 @@ import { ChevronDown, Check } from "lucide-react";
 import { fetchCountries } from "@/lib/api/fetchCountries";
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export default function Informations() {
 
   const [user, setUser] = useState<UserData | null>(null);
@@ -204,12 +204,12 @@ export default function Informations() {
   const nom = user.lastName
   const initiales = ((prenom?.trim()[0] || "")+(nom?.trim()[0] || "")).toUpperCase()
   return (
-    <div className="bg-gray-100 min-h-screen pb-24">
+    <div className="bg-emerald-40 mx-4 flex flex-col justify-between gap-5 min-h-screen pb-0">
 
       {/* AVATAR */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col  items-center">
         <div className="relative">
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-teal-700">
+          <div className="w-30 h-30 rounded-full bg-white shadow-md flex items-center justify-center text-2xl font-bold text-teal-700">
           { initiales}
           </div>
 
@@ -255,16 +255,7 @@ export default function Informations() {
         {showPicker && (
           <div className="absolute left-0 right-0 z-50 flex justify-center mt-2">
             <CustomDatePicker 
-              // onSelect={(date: Date) => {
-              //   // Conversion Date -> "yyyy-MM-dd"
-              //   const dateString = date.toISOString().split('T')[0];
-              //   setBornAt(dateString);
-              //   setShowPicker(false);
-              // }} 
-              // onClose={() => setShowPicker(false)} 
               onSelect={(date: Date) => {
-              // AU LIEU DE toISOString (qui décale d'un jour)
-              // UTILISEZ LE FORMATAGE LOCAL :
               const year = date.getFullYear();
               const month = String(date.getMonth() + 1).padStart(2, '0');
               const day = String(date.getDate()).padStart(2, '0');
@@ -281,17 +272,22 @@ export default function Informations() {
       </div>
 
      {/* ALERT TELEPHONE */}
-      <div className="bg-orange-100 border border-orange-300 rounded-xl p-4 flex gap-3">
-        <div className="text-orange-500">⚠️</div>
-        <div>
-          <p className="text-orange-600 font-semibold">
-            Numéro de téléphone requis
-          </p>
-          <p className="text-sm text-gray-600">
-            Définissez votre numéro pour passer des commandes
-          </p>
+     <div>
+        {numberVal ===false && showPhone === false &&
+          <div className="bg-orange-100 border border-orange-300 rounded-xl p-4 flex gap-3 items-center">
+          <div className="text-orange-500 bg-orange-200 h-12 w-12 flex flex-row items-center rounded-2xl justify-center"><AlertTriangle /></div>
+          <div>
+            <p className="text-orange-600 font-semibold">
+              Numéro de téléphone requis
+            </p>
+            <p className="text-sm text-gray-600">
+              Définissez votre numéro pour passer des commandes
+            </p>
+          </div>
         </div>
-      </div>
+        }
+     </div>
+      
       {/* TELEPHONE */}
       <div>
 
@@ -300,18 +296,18 @@ export default function Informations() {
           {numberVal === false && showPhone === false &&
             <div>
               <div className="flex justify-between items-center">
-                <h3 className="font-semibold text-gray-700">Téléphone</h3>
+                <h3 className="font-semibold text-black">Téléphone</h3>
                 {!showPhone && (
                   <button
                     onClick={() => setShowPhone(true)}
-                    className="text-green-600 font-medium"
+                    className="text-primary-dark font-medium"
                   >
                     Ajouter
                   </button>
                 )}
               </div>
               {showPhone === false &&(
-                <div className="flex items-center gap-2 bg-white border rounded-xl px-3 py-2 mt-1">
+                <div className="flex items-center gap-2 bg-white border rounded-xl px-3 py-2 mt-1 h-15">
                   <Phone />
                   <input type="text" value="Non renseigné" readOnly />
                 </div>
@@ -341,23 +337,23 @@ export default function Informations() {
                   placeholder="Numéro de téléphone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="flex-1 px-4 py-3 border rounded-xl outline-none"
+                  className="flex-1 px-4 py-3 border rounded-xl outline-none h-15"
                 />
               </div>
 
               {/* ACTIONS */}
               {showbuttonCode && 
-                <div className="flex flex-row items-center gap-4">
-                <button onClick={() => Sendtel()} className="flex-1 bg-green-700 text-white py-3 rounded-xl font-semibold">
-                  Envoyer le code
-                </button>
+                <div className="flex flex-row items-center pt-5 gap-4">
+                  <button onClick={() => Sendtel()} className="flex-1 bg-primary-dark text-white py-3 rounded-xl font-semibold h-15">
+                    Envoyer le code
+                  </button>
 
-                <button
-                  onClick={() => setShowPhone(false)}
-                  className="text-green-600 font-medium"
-                >
-                  Annuler
-                </button>
+                  <button
+                    onClick={() => setShowPhone(false)}
+                    className="text-primary-dark font-medium"
+                  >
+                    Annuler
+                  </button>
               </div>
               }
               
@@ -405,8 +401,8 @@ export default function Informations() {
 
           {/* OTP */}
           {showOTP && (
-            <div>
-              <input className="flex items-center gap-2 bg-white border rounded-xl px-3 py-2 mt-1 w-full" type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
+            <div className="flex flex-col justify-between gap-5">
+              <input className="flex items-center gap-2 h-15 bg-white border rounded-xl px-3 py-2 mt-1 w-full" type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
               <div className="flex flex-row items-center gap-4">
                 <button onClick={() => SendOTP()} className="flex-1 bg-green-700 text-white py-3 rounded-xl font-semibold">Verifier</button>
                 <button onClick={() => SendOTP()} className="flex-1  text-primary-dark py-3 rounded-xl font-semibold">renvoyer</button>
@@ -425,7 +421,7 @@ export default function Informations() {
           {numberVal === true &&(
             <div>
               <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-gray-700">Téléphone</h3>
+              <h3 className="font-semibold text-black">Téléphone</h3>
               
               <button
                 onClick={() => setShowPhone(true)}
@@ -434,7 +430,7 @@ export default function Informations() {
                 Modifier
               </button>
               </div>
-              <div className="flex justify-between items-center gap-2 bg-white border rounded-xl text-primary-dark px-3 py-2 mt-1">
+              <div className="flex justify-between items-center gap-2 bg-white border rounded-xl text-primary-dark px-3 py-2 mt-1 h-15">
                 <Phone />
                 <input className="text-primary-dark" type="text" value={phone} readOnly />
                 <BadgeCheck />
@@ -446,14 +442,14 @@ export default function Informations() {
       </div>
       {/* GENRE */}
       <div>
-        <label className="text-sm text-gray-600">Genre</label>
+        <label className="text-sm text-black">Genre</label>
 
         <div className="flex gap-3 mt-2">
           <button
             onClick={() => setSex("m")}
-            className={`flex-1 p-3 rounded-xl border flex-row items-center ${
+            className={`flex flex-1 p-3 h-15 justify-center gap-2 rounded-xl border flex-row items-center ${
               sex === "m"
-                ? "border-teal-700 bg-teal-100 text-teal-700"
+                ? "border-primary-dark bg-primary-light/20 text-primary-dark"
                 : "bg-white"
             }`}
           >
@@ -464,13 +460,13 @@ export default function Informations() {
 
           <button
             onClick={() => setSex("f")}
-            className={`flex-1 p-3 rounded-xl border flex-row items-center ${
+            className={`flex flex-1 p-3 h-15 justify-center gap-2 rounded-xl border flex-row items-center ${
               sex === "f"
-                ? "border-teal-700 bg-teal-100 text-teal-700"
+                ? "border-primary-dark bg-primary-light/20 text-primary-dark"
                 : "bg-white"
             }`}
           >
-            <Venus size={24} className="bg-primary"/>
+            <Venus size={24} />
             <p> Femme</p>
            
           </button>
@@ -479,7 +475,7 @@ export default function Informations() {
 
       <button
         onClick={handleSubmit}
-        className="w-full bg-teal-700 text-white py-3 rounded-xl mt-4"
+        className="w-full h-15 bg-teal-700 text-white py-3 rounded-xl mt-4"
       >
         Enregistrer
       </button>

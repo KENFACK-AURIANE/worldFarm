@@ -10,7 +10,7 @@ export default function PersonnalInfo() {
 
     const router = useRouter();
   return (
-    <div className=" min-h-screen pb-24">
+    <div className="bg-white min-h-screen pb-5">
       
       {/* HEADER */}
       <div className="bg-teal-700 text-white p-4 flex items-center gap-3">

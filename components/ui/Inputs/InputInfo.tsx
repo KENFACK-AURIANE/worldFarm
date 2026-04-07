@@ -2,9 +2,9 @@
 export default function InputInfo({ icon, label, value, onChange, disabled }: any) {
   return (
     <div>
-      <label className="text-sm text-gray-600">{label}</label>
+      <label className="text-sm text-black">{label}</label>
 
-      <div className="flex items-center gap-2 bg-white border rounded-xl px-3 py-2 mt-1">
+      <div className="flex items-center gap-2 bg-white border border-gray-300  rounded-xl px-3 py-2 mt-1 h-15">
         {icon}
         <input
           value={value}

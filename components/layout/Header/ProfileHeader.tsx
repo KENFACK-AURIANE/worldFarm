@@ -25,7 +25,7 @@ export default function ProfileHeader() {
   if (!user) return <p>Chargement...</p>;
 
   return (
-    <div className="fixed bg-gradient-to-r from-green-600 to-green-400 text-white p-6 pb-16 relative">
+    <div className="fixed bg-linear-to-r from-green-600 to-green-400 text-white p-6 pb-16 relative">
       
       {/* Avatar + info */}
       <div className="flex flex-col items-center mt-6">

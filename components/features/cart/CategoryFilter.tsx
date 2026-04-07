@@ -54,7 +54,7 @@ export default function CategoryFilter({
                 />
               </div>
             ) : (
-              /* 🎨 Placeholder : Cercle avec la première lettre si pas d'image */
+              /* Placeholder : Cercle avec la première lettre si pas d'image */
               <div className="w-8 h-10 bg-primary-dark/10  flex items-center justify-center text-primary-dark font-bold border border-primary-dark/20">
                 {cat.name.charAt(0).toUpperCase()}
               </div>
