@@ -12,7 +12,7 @@ export default function Header(){
         <nav className="sticky top-0 z-50 w-full shadow-md">
             <div className="flex flex-row gap-5 justify-between bg-green-800 h-20 p-5 items-center overflow-x-hidden overflow-y-hidden  ">
                 <Image
-                    src="/images/logo.jpg"
+                    src="/images/logo.png"
                     alt="logo"
                     width={100}
                     height={100}

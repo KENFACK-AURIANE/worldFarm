@@ -104,8 +104,7 @@ export default function LoginPage() {
     }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    alert("Erreur de connexion: " + err.message);
-    showToastLogin("Erreur serveur !"+ err.message);
+    showToastLogin("Erreur de connexion: " + err.message);
   } finally {
     setLoading(false);
   }
@@ -126,7 +125,7 @@ export default function LoginPage() {
       {/* logo + texte */}
       <div className="flex flex-col items-center text-center mb-10">
         <Image
-          src="/images/logo.jpg"
+          src="/images/logo.png"
           alt="logo"
           width={300}
           height={300}
