@@ -15,7 +15,7 @@ export default function ColorSelectorClient({
 }) {
 
   return (
-    <div className="grid grid-cols-2 gap-3 mt-4">
+    <div className="grid grid-cols-2 gap-3 mt-4 text-lg">
       {colors.map((color) => {
         const isSelected = selectedId === color.name;
 
@@ -23,7 +23,7 @@ export default function ColorSelectorClient({
           <button
             key={color.name}
             onClick={() => onChange(color.name)}
-            className={`flex flex-row w-40 p-2 rounded-2xl border-2 items-center gap-3 transition-all ${
+            className={`flex flex-row w-40 p-2 rounded-2xl border-2 items-center gap-3 transition-all text-lg${
               isSelected
                 ? 'border-teal-600 bg-teal-50'
                 : 'border-gray-200 bg-white'
@@ -39,7 +39,7 @@ export default function ColorSelectorClient({
 
             {/* Texte */}
             <div className="text-left">
-              <p className={`font-bold text-sm ${
+              <p className={`font-bold text-lg ${
                 isSelected ? 'text-teal-800' : 'text-slate-800'
               }`}>
                 {color.name}

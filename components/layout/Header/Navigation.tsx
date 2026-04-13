@@ -95,7 +95,7 @@ const Navigation = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/client/espaceVendeur" className={ pathname === '/client/acceuil' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
+                            <Link href="/client/panier" className={ pathname === '/client/panier' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"}>
                                 <ShoppingCart />Panier
                             </Link>
                         </li>

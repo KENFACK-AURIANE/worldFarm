@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { queryGraphql } from "@/lib/api/apiGraphql";
+
 export const GET_TOP_SHOPS = `
   query {
   topShops {
@@ -26,6 +29,12 @@ export const FETCH_SHOP_BY_ID = `
         numberOfSales
         numberOfSubscribers
         rating
+      }
+      address {
+        city
+        country
+        region
+        countryIcon
       }
       deliveryZones{
         city
@@ -133,3 +142,33 @@ export const GET_FILTERED_SHOPS = `
     }
   }
 `;
+
+
+
+export const createShop = async (input: any) => {
+  // On ajoute le paramètre $shopId (même s'il est null pour une création)
+  const mutation = `
+    mutation SaveShop($shopId: String, $input: ShopCreationInput!) {
+      saveShop(shopId: $shopId, input: $input) {
+        shopId
+        name
+      }
+    }
+  `;
+
+  const res = await queryGraphql("", {
+    query: mutation,
+    variables: { 
+      shopId: null, // Pour une création, on envoie null
+      input: input  // Votre formulaire
+    },
+  });
+
+  // Vérification de sécurité pour éviter le crash si l'API répond une erreur
+  if (res.data?.errors) {
+    throw new Error(res.data.errors[0].message);
+  }
+
+  return res.data.data.saveShop;
+};
+

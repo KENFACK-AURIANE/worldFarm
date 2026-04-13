@@ -34,6 +34,15 @@ export const API_ENDPOINTS = {
     DETAIL: (id: string) => `/api/orders/${id}`,
     CANCEL: (id: string) => `/api/orders/${id}/cancel`,
   },
+
+  CART:{
+    GET_CART:'/cart',
+    ADD_CART: '/cart/items',
+    CART_GROUPED_BY_SHOP: '/cart/grouped-by-shop',
+    CART_UPDATE_QUANTITY: (itemId: string) => `/cart/items/${itemId}`,
+    CART_REMOVE_ITEM: (itemId: string) => `/cart/items/${itemId}`,
+    CART_REFRESH: '/cart/refresh',
+  },
   
   // Vendor
   VENDOR: {
@@ -41,6 +50,13 @@ export const API_ENDPOINTS = {
     PRODUCTS: '/api/vendor/products',
     ORDERS: '/api/vendor/orders',
     WITHDRAW: '/api/vendor/withdraw',
+    CHOOSE_PLAN: '/shop/souscription/type/available',
+    SHOP_TYPES: '/type'
+  },
+  BOUTIQUES: {
+    SHOP_SOUSCRIPTION:  (shopId: string) => `/shop/user/subscriptions/${shopId}/subscribe`,
+    SHOP_UNSOUSCRIPTION:  (shopId: string) => `/shop/user/subscriptions/${shopId}/unsubscribe`,
+    SHOP_UNSOUSCRIPTION_VERIFICATION:  (shopId: string) => `/shop/user/subscriptions/${shopId}/me`,
   },
   // LOCALISATION
   LOCALISATION: {

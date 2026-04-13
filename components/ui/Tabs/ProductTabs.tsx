@@ -6,13 +6,13 @@ export default function ProductTabs({ product }: { product: any }) {
   const [tab, setTab] = useState("desc");
 
   return (
-    <div className="bg-white mt-2">
+    <div className="bg-white mt-2 text-lg">
       <div className="flex border-b">
         <button onClick={() => setTab("desc")} className={`flex-1 py-3 ${tab === 'desc' ? 'text-teal-700 font-bold border-b-2 border-teal-700' : 'text-gray-500'}`}>Description</button>
-        <button onClick={() => setTab("rev")} className={`flex-1 py-3 ${tab === 'rev' ? 'text-teal-700 font-bold border-b-2 border-teal-700' : 'text-gray-500'}`}>Avis (3)</button>
+        <button onClick={() => setTab("rev")} className={`flex-1 py-3 ${tab === 'rev' ? 'text-teal-700 font-bold border-b-2 border-teal-700' : 'text-gray-500'}`}>Avis </button>
       </div>
       
-      <div className="p-5 text-sm text-gray-600">
+      <div className="p-5  text-gray-600">
         {tab === "desc" ? (
           <p>{product.description}</p>
         ) : (

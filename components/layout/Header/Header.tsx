@@ -5,6 +5,7 @@ import Panier from "./Panier"
 import Avatar from "./Avatar"
 import Message from "./Message"
 import Navigation from "./Navigation"
+import Link from "next/link"; 
 
 export default function Header(){
     return(
@@ -20,7 +21,9 @@ export default function Header(){
                 <SearchBar />
                 <Notification />
                 <Message />
-                <Panier />
+                <Link href="/client/panier" className="flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark">
+                    <Panier />
+                </Link>
                 <Avatar />
             </div>
             <Navigation />

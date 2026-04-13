@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import { BadgeCheck, Star } from "lucide-react";
+import { BadgeCheck, Star, Store } from "lucide-react";
 import Link from "next/link"; 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,12 +11,26 @@ export default function ShopCard({ s }: { s: any }) {
   
       <Link href={`/client/boutiques/${s.shopId}`} className=" flex flex-col items-center gap-2">
         <div className="relative w-16 h-16 rounded-full overflow-hidden border border-divider">
-          <Image 
-            src={s.logoUrl || "/images/default-shop.png"} 
-            alt={s.name} 
-            fill 
-            className="object-cover"
-          />
+         {s.logoUrl && s.logoUrl !== "" ? (
+            <Image 
+              src={s.logoUrl} 
+              alt={s.name} 
+              fill 
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+          ) : (
+            /* 
+              Si pas d'image, on affiche l'icône Store. 
+              Le conteneur parent (flex items-center justify-center) 
+              se charge de la centrer proprement.
+            */
+            <div className="flex flex-col items-center gap-2">
+              <Store size={48} className="text-gray-300" />
+              <span className="text-xs text-gray-400 font-medium italic">Pas de logo</span>
+            </div>
+          )}
         </div>
 
         {/* Nom et Statut */}

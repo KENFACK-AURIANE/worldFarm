@@ -18,12 +18,12 @@ export default function AddressModal({
   hasAddress,
 }: any) {
   
-  // 🔥 listes dynamiques
+  // listes dynamiques
   const [countries, setCountries] = useState<any[]>([]);
   const [regions, setRegions] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
 
-  // 🔥 formulaire
+  // formulaire
   const [form, setForm] = useState({
     street: "",
     quarter: "",
@@ -45,21 +45,21 @@ export default function AddressModal({
     }
   }, [open]);
 
-  // 👉 charger régions quand pays change
+  // charger régions quand pays change
   useEffect(() => {
     if (form.countryIso) {
       getRegions(form.countryIso).then(setRegions);
     }
   }, [form.countryIso]);
 
-  // 👉 charger villes quand région change
+  //  charger villes quand région change
   useEffect(() => {
     if (form.region) {
       getCities(form.region).then(setCities);
     }
   }, [form.region]);
 
-  // 👉 envoyer au backend
+  // envoyer au backend
   const handleSubmit = async () => {
     try {
       const payload = {
@@ -109,12 +109,12 @@ export default function AddressModal({
                   countryIso: selected.code,
                   country: selected.name,
                   countryIcon: selected.flag,
-                  region: "", // 🧹 Vide le nom de la région
-                  city: "",   // 🧹 Vide le nom de la ville
+                  region: "", // Vide le nom de la région
+                  city: "",   // Vide le nom de la ville
                 });
-                setRegions([]); // 🧹 Vide l'ID de région pour stopper l'appel API villes
-                setRegions([]);          // 🧹 Vide la liste visuelle des régions
-                setCities([]);           // 🧹 Vide la liste visuelle des villes
+                setRegions([]); //  Vide l'ID de région pour stopper l'appel API villes
+                setRegions([]);  // Vide la liste visuelle des régions
+                setCities([]);    // Vide la liste visuelle des villes
               }
             }}
           >

@@ -2,9 +2,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {BadgeCheck, Star, MapPin, Users, ArrowRight, ChevronRight, ArrowLeft} from "lucide-react";
+import {BadgeCheck, Star, MapPin, Users,ChevronRight, ArrowLeft} from "lucide-react";
 import Image from "next/image";
-import { GET_ALL_SHOPS, GET_FILTERED_SHOPS } from "@/lib/services/shopService";
+import {  GET_FILTERED_SHOPS } from "@/lib/services/shopService";
 import { queryGraphql } from "@/lib/api/apiGraphql";
 import { getCities, getCountries, getRegions } from "@/lib/services/locationService";
 import Link from "next/link"; 

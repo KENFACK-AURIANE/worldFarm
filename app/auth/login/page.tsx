@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+
 // Importation du schéma de validation Zod et du type TypeScript du formulaire
 import { apiClient } from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/enpoints";
@@ -25,6 +26,8 @@ import Image from "next/image"
 import { LoginInput, loginSchema } from "@/lib/validation/loginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { showToastLogin } from "@/components/Toast/ToastLogin";
+
 // import { useGoogleLogin } from "@react-oauth/google";
 
 export default function LoginPage() {
@@ -64,25 +67,25 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginInput) => {
   setLoading(true);
-  try {
-    // const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, null, {
-    //   params: { username: data.username, password: data.password }
-    // });
-    const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, 
-    // 1. LE BODY (JSON) - 2ème argument
-    { 
-      username: data.username, 
-      password: data.password, 
-      rememberMe: data.rememberMe || false 
-    },
-    // 2. LES PARAMS (URL) - 3ème argument
-    { 
-      params: { 
+    try {
+      // const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, null, {
+      //   params: { username: data.username, password: data.password }
+      // });
+      const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, 
+      // 1. LE BODY (JSON) - 2ème argument
+      { 
         username: data.username, 
-        password: data.password 
-      } 
-    }
-  );
+        password: data.password, 
+        rememberMe: data.rememberMe || false 
+      },
+      // 2. LES PARAMS (URL) - 3ème argument
+      { 
+        params: { 
+          username: data.username, 
+          password: data.password 
+        } 
+      }
+    );
 
 
 
@@ -94,6 +97,7 @@ export default function LoginPage() {
       Cookies.set("token", access_token, { expires: 30, secure: true });
       // Badge long (LocalStorage car le Middleware n'en a pas besoin)
       localStorage.setItem("refresh_token", refresh_token);
+      showToastLogin("Connexion réussie !");
       
       router.push("/client/acceuil");
       // router.push("/account/profile");
@@ -101,6 +105,7 @@ export default function LoginPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     alert("Erreur de connexion: " + err.message);
+    showToastLogin("Erreur serveur !"+ err.message);
   } finally {
     setLoading(false);
   }

@@ -12,7 +12,7 @@ export default function ProfilePage() {
     <div className="bg-gray-100 min-h-screen pb-20">
 
       {/* HEADER */}
-      <div className=" sticky top-0 z-50 w-full h-20 shadow-md bg-linear-to-r from-green-600 to-green-400   ">
+      <div className=" sticky top-0 z-50 w-full h-20 shadow-md bg-linear-to-r from-emerald-600 to-emerald-400 flex items-center justify-between px-4">
         
         {/* Icons top right */}
         <div className="absolute right-4 top-4 flex gap-3 items-center text-white">
@@ -32,7 +32,10 @@ export default function ProfilePage() {
 
             {/* CREATE SHOP */}
             
-            <MenuItemShop icon={<Store />} title="Créer votre boutique" subtitle="Vendez vos produits sur WorldFarm" icon2={<ChevronRight />} />
+            <Link href="/vendor/createShop/Plan">
+              <MenuItemShop icon={<Store />} title="Créer votre boutique" subtitle="Vendez vos produits sur WorldFarm" icon2={<ChevronRight />} />
+            </Link>
+            
 
             {/* MON COMPTE */}
             <Section title="Mon Compte">

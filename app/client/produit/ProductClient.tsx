@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ColorSelectorClient from "@/components/ui/Button/ColorSelectorClient";
 import QuantitySelector from "@/components/ui/Button/QuantitySelector";
-import { CheckCircle2, ChevronLeft, CreditCard, Heart, HelpCircle, Home,  MapPin, MessageSquare,Lock, Palette, Shield, ShieldCheck, ShoppingCart, Store, Truck, Headset } from "lucide-react";
+import { CheckCircle2, ChevronLeft, CreditCard, Heart,  Home,  MapPin, MessageSquare,Lock, Palette, Shield, ShieldCheck, ShoppingCart, Store, Truck, Headset } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ProductTabs from "@/components/ui/Tabs/ProductTabs";
@@ -13,13 +13,13 @@ import ProductTabs from "@/components/ui/Tabs/ProductTabs";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProductClient({ product }: any) {
 
-  // 🔥 STATE CENTRAL
+  // STATE CENTRAL
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0]?.name);
   const [quantity, setQuantity] = useState(1);
 
   const router = useRouter();
 
-  // 🔥 ACTION
+  // ACTION
   const handleOrder = () => {
     router.push(
       `/client/payement?productId=${product.id}&qty=${quantity}&color=${selectedColor}`
@@ -29,8 +29,8 @@ export default function ProductClient({ product }: any) {
   return (
     <div className="max-w-md mx-auto  min-h-screen pb-24 font-sans text-slate-800  md:max-w-screen md:overflow-hidden md:m-0  md:min-w-md ">
 
-      couleurs disponibles
-      <div className="border border-gray-200 mx-4 my-4 backdrop-blur-md rounded-xl p-3  ">
+      {/* couleurs disponibles */}
+      <div className="border border-gray-200 mx-4 my-4 backdrop-blur-md rounded-xl p-3  text-lg">
         <div className="flex flex-row items-center gap-3 mt-6 mb-3 mx-4 border-gray-200 rounded-xl ">
           <div className="bg-primary-dark p-2 rounded-lg flex items-center justify-center">
           {/* L'icône elle-même */}
@@ -60,9 +60,9 @@ export default function ProductClient({ product }: any) {
       <div className="m-4 p-4 bg-blue-50/50 border border-blue-100 rounded-2xl">
         <div className="flex items-center gap-2 text-blue-700 font-bold mb-4">
           <ShieldCheck size={20} />
-          <span className="text-sm">Protection des commandes WorldFarm</span>
+          <span className="">Protection des commandes WorldFarm</span>
         </div>
-        <div className="grid grid-cols-1 gap-3 text-xs text-gray-700">
+        <div className="grid grid-cols-1 gap-3  text-gray-700">
           <div className="flex items-center gap-2"><Lock size={14} className="text-green-600" /> Paiement sécurisé</div>
           <div className="flex items-center gap-2"><Truck size={14} className="text-green-600" /> Suivi de livraison</div>
           <div className="flex items-center gap-2"><CreditCard size={14} className="text-green-600" /> Protection remboursement</div>
@@ -141,80 +141,59 @@ export default function ProductClient({ product }: any) {
         </div>
       </div>    
     
-    {/* Vendor Section */}
-    <div className="p-4 flex items-center justify-between bg-white mt-2 border-y mx-4">
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center p-1 overflow-hidden">
-          {product.shop?.logoUrl && (
-            <Image
-              src={product.shop.logoUrl}
-              alt={product.shop?.name}
-              fill 
-              className="object-cover"
-            />
-          )}
-        </div>
-        <div className="flex flex-row items-center justify-between ">
-          <div className="flex flex-col items-center gap-1 font-bold">
-            <div className="flex flex-row items-center gap-2">
-              {product.shop?.name} 
-              {product.shop?.isVerified && <CheckCircle2 size={16} className="text-blue-500" />}
+      {/* Vendor Section */}
+      <div className="p-4 flex items-center justify-between bg-white mt-2 border-y mx-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center p-1 overflow-hidden">
+            {product.shop?.logoUrl && (
+              <Image
+                src={product.shop.logoUrl}
+                alt={product.shop?.name}
+                fill 
+                className="object-cover"
+              />
+            )}
+          </div>
+          <div className="flex flex-row items-center justify-between ">
+            <div className="flex flex-col items-center gap-1 font-bold">
+              <div className="flex flex-row items-center gap-2">
+                {product.shop?.name} 
+                {product.shop?.isVerified && <CheckCircle2 size={16} className="text-blue-500" />}
+              </div>
+              
+              <Link href={`/client/boutiques/${product.shop?.shopId}`}>
+                <p className="text-sm text-primary-light">Voir la boutique</p>
+              </Link>
             </div>
             
-            <Link href={`/client/boutiques/${product.shop?.shopId}`}>
-              <p className="text-sm text-primary-light">Voir la boutique</p>
-            </Link>
+            
           </div>
-          
-          
         </div>
-      </div>
-      <div>
-        <Link href={`/client/boutiques/${product.shop?.shopId}`}>
-          <ChevronLeft size={20} className="rotate-180 text-gray-400" />
-        </Link>
+        <div>
+          <Link href={`/client/boutiques/${product.shop?.shopId}`}>
+            <ChevronLeft size={20} className="rotate-180 text-gray-400" />
+          </Link>
+        </div>
+        
       </div>
       
-    </div>
+      {/* Description Section */}
+      <div className="mx-4">
+        <ProductTabs product={product} />
+      </div>
+            
+      
+      {/* Bottom Sticky Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white p-3 border-t flex gap-2 items-center">
+        <button className="p-3 border rounded-xl text-gray-500"><Heart size={20} /></button>
+        <button className="p-3 border rounded-xl text-gray-500"><ShoppingCart size={20} /></button>
+        <button className="p-3 border rounded-xl text-gray-500"><MessageSquare size={20} /></button>
+        <button onClick={handleOrder} className="flex-1 bg-teal-700 text-white font-bold py-3.5 rounded-xl text-lg">
+          Commander maintenant
+        </button>
+      </div>
     
-    {/* Description Section */}
-    <div className="mx-4">
-      <ProductTabs product={product} />
-    </div>
-          
     
-    {/* Bottom Sticky Action Bar */}
-    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white p-3 border-t flex gap-2 items-center">
-      <button className="p-3 border rounded-xl text-gray-500"><Heart size={20} /></button>
-      <button className="p-3 border rounded-xl text-gray-500"><ShoppingCart size={20} /></button>
-      <button className="p-3 border rounded-xl text-gray-500"><MessageSquare size={20} /></button>
-      <button onClick={handleOrder} className="flex-1 bg-teal-700 text-white font-bold py-3.5 rounded-xl text-sm">
-        Commander maintenant
-      </button>
-    </div>
-    <div>
-      {product.dimension ? (
-        <p>
-          {product.dimension.length} x {product.dimension.width} x {product.dimension.height}
-        </p>
-      ) : (
-        <p>Dimensions non spécifiées</p>
-      )}
-    </div>
-    <div>
-      {product.tags && product.tags.length > 0 ? (
-        <div>
-          {product.tags.map((tag: string, index: number) => (
-            <span key={index} className="bg-gray-200 text-gray-700 px-2 py-1 rounded-md text-sm mr-2">
-              {tag}
-            </span>
-          ))}
-        </div>
-      ) : (
-        <p>Aucun tag disponible</p>
-      )}
-    </div>
-
     </div>
   );
 }

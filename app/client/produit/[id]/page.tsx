@@ -3,13 +3,14 @@ import { queryGraphql } from "@/lib/api/apiGraphql";
 import { GET_PRODUCT_BY_ID } from "@/lib/services/productService";
 import { GET_CATEGORIES } from "@/lib/services/categoryService";
 import Image from "next/image";
-import { ListChecks } from "lucide-react";
+import { ChevronRight, ListChecks } from "lucide-react";
 import ProduitClient from "../ProductClient"
 
 import { 
   ChevronLeft, Share2, Heart, Shapes
   ,Star, Box, 
 } from 'lucide-react';
+import Productpage from "@/components/layout/Header/Productpage";
 
 // On définit le type de params comme une Promesse (spécifique à Next.js 15/16)
 interface Props {
@@ -40,24 +41,16 @@ const findHierarchy = (categories: any[], targetId: string | undefined) => {
 
 
 export default async function ProductDetailPage({ params }: Props) {
-  // 1. Récupérer l'ID de l'URL
+  // Récupérer l'ID de l'URL
   const { id } = await params; // On attend que les params soient disponibles
 
-  // 2. Appeler le serveur avec la fonction findProductById
+  // Appeler le serveur avec la fonction findProductById
   const data = await queryGraphql(GET_PRODUCT_BY_ID, { productId: id });
   const product = data?.findProductById;
   console.log("DATA REÇUE :", product?.categoryId);
  
-  // const categoryData = await queryGraphql(GET_CATEGORIES_BY_ID, { parentId: product?.categoryId });
-  // const categorie = categoryData?.getCategories;
-  // console.log("categorie recue :",  categorie?.[0]?.name);
-  // // CE LOG VA TOUT VOUS DIRE :
-  // console.log("STRUCTURE RÉELLE :", JSON.stringify(categoryData, null, 2));
 
-  // // Essayez aussi ce chemin alternatif souvent utilisé par les clients GraphQL :
-  // console.log("TEST ALTERNATIF :", categoryData?.data?.getCategories?.[0]?.name);
-
-  // 1. Récupérez d'abord TOUTES les catégories
+  //  Récupérez d'abord TOUTES les catégories
   const allCatsData = await queryGraphql(GET_CATEGORIES);
   const allCategories = allCatsData?.getCategories || [];
 
@@ -65,7 +58,7 @@ export default async function ProductDetailPage({ params }: Props) {
   const resultat = findHierarchy(allCategories, product?.categoryId);
 
   // LOG DE VÉRIFICATION
-  console.log("RÉSULTAT TROUVÉ :", resultat.parentName, "›", resultat.childName);
+  console.log("RÉSULTAT TROUVÉ :", resultat.parentName, resultat.childName);
   // 3. Gérer le cas où le produit n'existe pas
   if (!product) {
     return (
@@ -81,18 +74,13 @@ export default async function ProductDetailPage({ params }: Props) {
   return (
     
 
-    <div className="max-w-md mx-auto  min-h-screen pb-24 font-sans text-slate-800  md:max-w-screen md:overflow-hidden md:m-0  md:min-w-md ">
+    <div className="max-w-md mx-auto  min-h-screen pb-24 font-sans text-slate-800  md:max-w-screen md:overflow-hidden md:m-0  md:min-w-md text-lg">
       {/* Header Navigation */}
-      <div className="flex items-center gap-4 p-4 sticky top-0 bg-teal-600/10 backdrop-blur-md z-10 md: w-screen ">
-        <button className="p-2 bg-teal-600 text-white rounded-full">
-          <ChevronLeft size={24} />
-        </button>
-        <h1 className="font-bold text-teal-800 uppercase tracking-wide">{product.name}</h1>
-        <div className="flex gap-2">
-          <button className="p-2 text-white bg-teal-600/50 rounded-full"><Share2 size={20} /></button>
-            <button className="p-2 text-white bg-teal-600/50 rounded-full"><Heart size={20} /></button>
-        </div>
+      <div className="flex items-center gap-4  sticky top-0 bg-teal-600/10 backdrop-blur-md z-10 md: w-screen ">
+        
+        <Productpage productName={product.name} />
       </div>
+      
     
       {/* Product Image Section */}
       <div className="W-full bg-green-500 md:w-screen">
@@ -124,35 +112,35 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="p-3 border-b border-gray-200 flex items-start gap-3">
           <div className="p-2 bg-teal-50 text-teal-600 rounded-lg"><Shapes size={20} /></div>
           <div>
-            <p className="text-xs text-gray-500">Catégorie</p>
-            <p className="font-semibold text-sm">{resultat.parentName} › {resultat.childName}</p>
+            <p className="text-lgtext-gray-500">Catégorie</p>
+            <p className="font-semibold text-sm flex flex row">{resultat.parentName} <ChevronRight /> {resultat.childName}</p>
           </div>
         </div>
         
-        <div className="p-3 border-b border-gray-200 flex items-start gap-3">
-          <div className="p-2 bg-teal-50 text-teal-600 rounded-lg"><Box size={20} /></div>
+        <div className="p-3 border-b border-gray-200 flex items-start gap-3 text-lg">
+          <div className="p-2 bg-teal-50 text-teal-600 rounded-lg  text-lg"><Box size={20} /></div>
           <div>
-            <p className="text-xs text-gray-500">Stock</p>
-            <p className="font-semibold text-sm">{product.stock} disponible(s)</p>
+            <p className=" text-gray-500  text-lg">Stock</p>
+            <p className="font-semibold  text-lg">{product.stock} disponible(s)</p>
           </div>
         </div>
 
-        <div className="p-3 border-b border-gray-200 flex items-start gap-3">
+        <div className="p-3 border-b border-gray-200 flex items-start gap-3  text-lg">
           <div className="p-2 bg-teal-50 text-teal-600 rounded-lg"><div className="p-2 bg-teal-50 text-teal-600 rounded-lg"><ListChecks size={20} /></div></div>
           <div>
-            <p className="text-xs text-gray-500">Caractéristiques</p>
-            <div className="flex flex-wrap gap-1 mt-1">
+            <p className=" text-lg text-gray-500">Caractéristiques</p>
+            <div className="flex flex-wrap gap-1 mt-1  text-lg">
               {product.characteristics && product.characteristics.length > 0 ? (
                 product.characteristics.map((char: string, index: number) => (
                   <span 
                     key={index} 
-                    className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-sm font-medium"
+                    className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded  text-lg font-medium"
                   >
                     {char}
                   </span>
                 ))
               ) : (
-                <p className="font-semibold text-sm">Non spécifiées</p>
+                <p className="font-semibold  text-lg">Non spécifiées</p>
               )}
             </div>
           </div>

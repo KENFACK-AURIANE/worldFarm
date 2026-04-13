@@ -1,9 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BadgeCheck,  Store } from "lucide-react";
+import { apiClient } from "@/lib/api/client";
+import { API_ENDPOINTS } from "@/lib/api/enpoints";
+import { BadgeCheck,  Router,  Store } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link"; 
 import { FaCartPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 export default function ProductCard({ p }: any) {
+    const router = useRouter();
+
+
+    const AjouterAupanier = async () => {
+        try{
+            const response = await apiClient.post(API_ENDPOINTS.CART.ADD_CART,{
+                productId: p.id,
+                variationId: null,
+                quantity: 1
+            });
+            router.push("/client/panier")
+        } catch (error:any){
+
+            console.log(error)
+
+        }
+      
+      
+        
+    }
 
   return (
     <div key={p.id} className="border-none shadow-card rounded-xl">
@@ -22,7 +45,7 @@ export default function ProductCard({ p }: any) {
                     </p>
                 </div>
                 <div className="absolute bottom-2 right-3 bg-white p-2 flex items-center rounded-lg ">
-                    <button type="button">
+                    <button type="button" onClick={AjouterAupanier}>
                         <FaCartPlus size={25} className="text-primary-dark " />
                     </button>
                 </div>

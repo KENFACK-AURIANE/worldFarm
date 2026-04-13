@@ -14,6 +14,7 @@ import { ArrowRight, History, Store } from "lucide-react";
 import { GET_TOP_SHOPS } from "@/lib/services/shopService";
 import ShopGrid from "@/components/features/cart/ShopGrid";
 import Footer from "@/components/layout/Footer/Footer";
+import {useRouter} from "next/navigation";
 
 interface Category {
   id: string;
@@ -27,6 +28,7 @@ const Page = () => {
   const [products, setProducts] = useState<any[]>([]); 
   const [shops, setShops] = useState<any[]>([]); 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const router = useRouter();
 
   
 
@@ -66,7 +68,7 @@ const Page = () => {
   }
 
   try {
-    // ⚠️ éviter d’envoyer null si ton backend ne supporte pas
+    // éviter d’envoyer null si ton backend ne supporte pas
     const promises = allRelatedIds.map(id =>
       id === null
         ? queryGraphql(GET_PRODUCTS) // sans filtre
@@ -75,24 +77,33 @@ const Page = () => {
 
     const results = await Promise.all(promises);
 
-    console.log("RESULTS :", results); // 🔍 debug utile
+    console.log("RESULTS :", results);
+    const nomRecherche = "Global Shop"; // Le nom exact de la boutique
 
-    // ✅ correction importante ici (GraphQL → data)
+
+    //obtenir les produits
     const allProducts = results.flatMap(
-      res => res?.data?.findAllProduct?.content ?? []
+      res => res?.findAllProduct?.content || []
     );
+
+
+    const produitsBoutique = allProducts.filter((res) => {
+      console.log(`Comparaison entre "${res?.shop?.name}" et "${nomRecherche}"`);
+      return res?.shop?.name === nomRecherche;
+    });
+    console.log("Produits de la boutique :", produitsBoutique);
 
     // 5. SUPPRESSION DES DOUBLONS
     const uniqueProducts = Array.from(
       new Map(allProducts.map(p => [p.id, p])).values()
-    );
+      );
 
-    setProducts(uniqueProducts);
-  } catch (err) {
-    console.error("Erreur lors du chargement des produits:", err);
-    setProducts([]);
-  }
-}, [categories]);
+      setProducts(uniqueProducts);
+    } catch (err) {
+      console.error("Erreur lors du chargement des produits:", err);
+      setProducts([]);
+    }
+  }, [categories]);
 
 
 
