@@ -4,10 +4,18 @@ import ProfileHeader from "@/components/layout/Header/ProfileHeader";
 import MenuItem from "@/components/layout/SectionAndMenu/MenuItem";
 import MenuItemShop from "@/components/layout/SectionAndMenu/MenuItemsShop";
 import Section from "@/components/layout/SectionAndMenu/Section";
-import { Bell, Settings, User, MapPin, CreditCard, Heart, Clock, MessageSquare, HelpCircle, Headphones, Info, LogOut, Store, ChevronRight } from "lucide-react";
+import { queryGraphql } from "@/lib/api/apiGraphql";
+import { Bell, Settings, User, MapPin, CreditCard, Heart, Clock, MessageSquare, HelpCircle, Headphones, Info, LogOut, Store, ChevronRight, Loader2 } from "lucide-react";
 import Link from "next/link"
+import { useShopsData } from "@/lib/hooks/UseShopData";
 
 export default function ProfilePage() {
+  const { shops, loading } = useShopsData();
+
+  if (loading) return <Loader2 className="animate-spin" />;
+
+
+
   return (
     <div className="bg-gray-100 min-h-screen pb-20">
 
@@ -30,53 +38,54 @@ export default function ProfilePage() {
       {/* CONTENT */}
       <div className="px-4 mt-20 space-y-6">
 
-            {/* CREATE SHOP */}
-            
-            <Link href="/vendor/createShop/Plan">
-              <MenuItemShop icon={<Store />} title="Créer votre boutique" subtitle="Vendez vos produits sur WorldFarm" icon2={<ChevronRight />} />
-            </Link>
-            
+        {/* CREATE SHOP */}
+       
+        
+        <Link href={shops.length > 0 ? "/vendor/Dashboard/Acceuil" : "/vendor/createShop/Plan"}>
+          <MenuItemShop icon={<Store />} title={shops.length > 0 ? "Gérer mes boutiques" : "Créer votre boutique"}subtitle="Vendez vos produits sur WorldFarm" icon2={<ChevronRight />} />
+        </Link>
+        
 
-            {/* MON COMPTE */}
-            <Section title="Mon Compte">
+        {/* MON COMPTE */}
+        <Section title="Mon Compte">
 
-              <Link href="/account/personnalInfo">
-                <MenuItem icon={<User />} title="Informations personnelles" subtitle="Nom, email, téléphone" />
-              </Link>
-              <Link href="/account/adresse">
-                <MenuItem icon={<MapPin />} title="Adresses de livraison" subtitle="Aucune adresse" />
-              </Link>
-              
-              
-              <MenuItem icon={<CreditCard />} title="Moyens de paiement" subtitle="Mobile Money, cartes" />
-            </Section>
+          <Link href="/account/personnalInfo">
+            <MenuItem icon={<User />} title="Informations personnelles" subtitle="Nom, email, téléphone" />
+          </Link>
+          <Link href="/account/adresse">
+            <MenuItem icon={<MapPin />} title="Adresses de livraison" subtitle="Aucune adresse" />
+          </Link>
+          
+          
+          <MenuItem icon={<CreditCard />} title="Moyens de paiement" subtitle="Mobile Money, cartes" />
+        </Section>
 
-            {/* ACTIVITÉ */}
-            <Section title="Activité">
-            <MenuItem icon={<Clock />} title="Historique des commandes" subtitle="Voir toutes vos commandes" />
-            <MenuItem icon={<Heart />} title="Mes favoris" subtitle="Produits sauvegardés" />
-            <MenuItem icon={<MessageSquare />} title="Mes avis" subtitle="Avis que vous avez publiés" />
-            </Section>
+        {/* ACTIVITÉ */}
+        <Section title="Activité">
+        <MenuItem icon={<Clock />} title="Historique des commandes" subtitle="Voir toutes vos commandes" />
+        <MenuItem icon={<Heart />} title="Mes favoris" subtitle="Produits sauvegardés" />
+        <MenuItem icon={<MessageSquare />} title="Mes avis" subtitle="Avis que vous avez publiés" />
+        </Section>
 
-            {/* PARAMÈTRES */}
-            <Section title="Paramètres">
-            <MenuItem icon={<Bell />} title="Notifications" subtitle="Push, email, SMS" />
-            <MenuItem icon={<User />} title="Langue & Région" subtitle="Français - Cameroun" />
-            <MenuItem icon={<Settings />} title="Confidentialité et sécurité" subtitle="Mot de passe, 2FA" />
-            </Section>
+        {/* PARAMÈTRES */}
+        <Section title="Paramètres">
+        <MenuItem icon={<Bell />} title="Notifications" subtitle="Push, email, SMS" />
+        <MenuItem icon={<User />} title="Langue & Région" subtitle="Français - Cameroun" />
+        <MenuItem icon={<Settings />} title="Confidentialité et sécurité" subtitle="Mot de passe, 2FA" />
+        </Section>
 
-            {/* SUPPORT */}
-            <Section title="Support">
-            <MenuItem icon={<HelpCircle />} title="Centre d'aide" subtitle="FAQ, guides" />
-            <MenuItem icon={<Headphones />} title="Contacter le support" subtitle="Chat, email, téléphone" />
-            <MenuItem icon={<Info />} title="À propos" subtitle="Version 1.0.0" />
-            </Section>
+        {/* SUPPORT */}
+        <Section title="Support">
+        <MenuItem icon={<HelpCircle />} title="Centre d'aide" subtitle="FAQ, guides" />
+        <MenuItem icon={<Headphones />} title="Contacter le support" subtitle="Chat, email, téléphone" />
+        <MenuItem icon={<Info />} title="À propos" subtitle="Version 1.0.0" />
+        </Section>
 
-            {/* LOGOUT */}
-            <button className="w-full border border-red-500 text-red-500 py-3 rounded-xl flex items-center justify-center gap-2">
-            <LogOut size={18} />
-            Se déconnecter
-            </button>
+        {/* LOGOUT */}
+        <button className="w-full border border-red-500 text-red-500 py-3 rounded-xl flex items-center justify-center gap-2">
+        <LogOut size={18} />
+        Se déconnecter
+        </button>
 
       </div>
     </div>

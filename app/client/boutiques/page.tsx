@@ -108,7 +108,7 @@ export default function NosBoutiques() {
 
   // ──────────────── RENDER ────────────────
   return (
-    <div className=" max-w-md space-y-4 bg-vendor-primary/10 rounded-xl h-screen">
+    <div className=" max-w-md space-y-4 bg-vendor-primary/10 rounded-xl h-screen lg:max-w-screen">
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 pt-6 pb-4 bg-gray-50">

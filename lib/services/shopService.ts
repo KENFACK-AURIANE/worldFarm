@@ -22,25 +22,39 @@ export const FETCH_SHOP_BY_ID = `
       isVerified
       name
       logoUrl
+      coverImageUrl
       description
+      totalSales
       totalProducts
+      minimumOrderAmount
+      shopType{
+        name
+      }
       data{
         numberOfProducts
         numberOfSales
         numberOfSubscribers
         rating
       }
+      souscription { 
+        shopSouscriptionType{
+          name
+        }
+        active
+      }
       address {
         city
         country
         region
         countryIcon
+        countryIso
       }
       deliveryZones{
         city
         region
         estimatedDays
         estimatedCost
+        isAvailable
       }
       hourlies {
         monday {
@@ -144,9 +158,7 @@ export const GET_FILTERED_SHOPS = `
 `;
 
 
-
 export const createShop = async (input: any) => {
-  // On ajoute le paramètre $shopId (même s'il est null pour une création)
   const mutation = `
     mutation SaveShop($shopId: String, $input: ShopCreationInput!) {
       saveShop(shopId: $shopId, input: $input) {
@@ -156,19 +168,49 @@ export const createShop = async (input: any) => {
     }
   `;
 
-  const res = await queryGraphql("", {
-    query: mutation,
-    variables: { 
-      shopId: null, // Pour une création, on envoie null
-      input: input  // Votre formulaire
-    },
+  // ✅ On passe 'mutation' comme premier argument
+  const res = await queryGraphql(mutation, { 
+    shopId: null, 
+    input: input 
   });
 
-  // Vérification de sécurité pour éviter le crash si l'API répond une erreur
-  if (res.data?.errors) {
-    throw new Error(res.data.errors[0].message);
-  }
-
-  return res.data.data.saveShop;
+  // Extraction selon ta structure habituelle
+  return res?.data?.saveShop || res?.saveShop;
 };
+
+export const FETCH_SHOPS_QUERY = `
+  query GetUserShops {
+    userShops( size: 10) {
+      content {
+        shopId
+        name
+        logoUrl
+        totalProducts
+        totalSales
+        rating
+        isActive
+        isVerified
+        data{
+          numberOfProducts
+          numberOfSales
+          numberOfSubscribers
+          rating
+        }
+        address {
+          city
+          region
+          country
+          countryIcon
+        }
+        souscription { 
+          shopSouscriptionType{
+            name
+          }
+          active
+        }
+      }
+    }
+  }
+`;
+
 
