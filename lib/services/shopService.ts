@@ -9,7 +9,14 @@ export const GET_TOP_SHOPS = `
       isVerified
       name
       logoUrl
-      
+      isSponsored
+      address {
+        city
+        country
+        region
+        countryIcon
+        countryIso
+      }
     }
   }
 }
@@ -26,6 +33,18 @@ export const FETCH_SHOP_BY_ID = `
       description
       totalSales
       totalProducts
+      reviewsCount
+      isSponsored
+      categories {
+        id
+        name
+        color
+        logoUrl
+        subCategories {
+          id
+          name
+        }
+      }
       minimumOrderAmount
       shopType{
         name

@@ -13,6 +13,8 @@ export interface Shop {
   description?: string;
   logoUrl?: string;
   coverImageUrl?:string;
+  displayImages?: string;
+  isSponsored:boolean;
   minimumOrderAmount?:number,
   address?: { region?: string; city?: string, country?: string, countryIso?: string }; // Selon ton objet Address
   totalProducts: number;

@@ -10,11 +10,16 @@ import ProductGrid from "@/components/features/cart/ProductGrid";
 import CategoryFilter from "@/components/features/cart/CategoryFilter";
 import Link from "next/link"; 
 
-import { ArrowRight, History, Store } from "lucide-react";
+import { ArrowRight, History, Plus, Store } from "lucide-react";
 import { GET_TOP_SHOPS } from "@/lib/services/shopService";
 import ShopGrid from "@/components/features/cart/ShopGrid";
 import Footer from "@/components/layout/Footer/Footer";
 import {useRouter} from "next/navigation";
+import HeaderAcceuil from "@/components/layout/Header/HeaderAcceuil";
+import SponsoredShop from "@/components/layout/SectionAndMenu/Acceuil/sponsoredShop";
+import PopularShop from "@/components/layout/SectionAndMenu/Acceuil/popularShop";
+import Reel from "@/components/layout/SectionAndMenu/Acceuil/reels";
+import { Shop } from "@/lib/types/shop.types";
 
 interface Category {
   id: string;
@@ -26,9 +31,10 @@ const Page = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<any[]>([]); 
-  const [shops, setShops] = useState<any[]>([]); 
+  const [shops, setShops] = useState<Shop[]>([]); 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const router = useRouter();
+  const [sponsorisedShops, setSponsorisedShops] = useState<Shop[]>([]); 
 
   
 
@@ -88,7 +94,6 @@ const Page = () => {
 
 
     const produitsBoutique = allProducts.filter((res) => {
-      console.log(`Comparaison entre "${res?.shop?.name}" et "${nomRecherche}"`);
       return res?.shop?.name === nomRecherche;
     });
     console.log("Produits de la boutique :", produitsBoutique);
@@ -117,19 +122,39 @@ const Page = () => {
 
   useEffect(() => {
     const loadShops = async () => {
-      const data = await queryGraphql
-      (GET_TOP_SHOPS);
-      const actualData = data?.data;
-      console.log("Contenu réel :", actualData?.topShops?.content);
+      const data = await queryGraphql(GET_PRODUCTS); // Récupère les produits
+      const allProducts = data?.findAllProduct?.content || [];
+      console.log("produits",data?.findAllProduct?.content)
 
-      // on accède à .topShops.content
-      if (data?.topShops?.content) {
+      const shopsMap: Record<string, any> = {};
 
-        setShops(data.topShops.content); // On donne le tableau [Boutique]
-      } else {
-        setShops([]); 
-        console.warn("Aucune boutique 'top' trouvée ou format incorrect.");
-      }
+      allProducts.forEach((product: any) => {
+          const shopData = product.shop;
+          if (shopData?.isVerified) {
+          const sId = shopData.shopId;
+          
+          // Si la boutique n'est pas encore dans notre Map, on l'initialise
+          if (!shopsMap[sId]) {
+              shopsMap[sId] = {
+              ...shopData,
+              displayImages: [] // On crée ce champ pour stocker les images
+              };
+          }
+
+          // On ajoute l'image du produit actuel à la boutique (max 2)
+          if (shopsMap[sId].displayImages.length < 2) {
+              const img = product.imageUrl;
+              if (img) shopsMap[sId].displayImages.push(img);
+          }
+          }
+      });
+      const finalShops = Object.values(shopsMap);
+      console.log("Nombre de boutiques trouvées :", finalShops.length)
+
+      // On transforme l'objet en tableau pour ton .map()
+      setShops(Object.values(shopsMap));
+      console.log("taille sponsor",shops.length)
+    
     };
 
     loadShops();
@@ -137,12 +162,78 @@ const Page = () => {
 
 
 
+  
+
+  useEffect(() => {
+    const loadSponsorShops = async () => {
+      const data = await queryGraphql(GET_PRODUCTS); // Récupère les produits
+      const allProducts = data?.findAllProduct?.content || [];
+      console.log("produits",data?.findAllProduct?.content)
+
+      const shopsMap: Record<string, any> = {};
+
+      allProducts.forEach((product: any) => {
+          const shopData = product.shop;
+          if (shopData?.isVerified) {
+          const sId = shopData.shopId;
+          
+          // Si la boutique n'est pas encore dans notre Map, on l'initialise
+          if (!shopsMap[sId]) {
+              shopsMap[sId] = {
+              ...shopData,
+              displayImages: [] // On crée ce champ pour stocker les images
+              };
+          }
+
+          // On ajoute l'image du produit actuel à la boutique (max 2)
+          if (shopsMap[sId].displayImages.length < 2) {
+              const img = product.imageUrl;
+              if (img) shopsMap[sId].displayImages.push(img);
+          }
+          }
+      });
+      const finalShops = Object.values(shopsMap);
+      console.log("Nombre de boutiques trouvées :", finalShops.length)
+
+      // On transforme l'objet en tableau pour ton .map()
+      setSponsorisedShops(Object.values(shopsMap));
+      console.log("taille sponsor",sponsorisedShops.length)
+    };
+
+    loadSponsorShops();
+  }, []);
+
+
+
+
 
   return (
     <div >
       <div className="sticky top-0 z-50 w-full shadow-md">
-        <Header />
+         <HeaderAcceuil />
+       
       </div>
+
+      <SponsoredShop sponsorisedShops={sponsorisedShops} />
+      <PopularShop shops={shops} />
+
+      {/* SECTION: BOUTON STATUTS */}
+      <div className="flex items-center justify-between bg-primary-dark/8 p-3 rounded-2xl shadow-sm border border-gray-100 group cursor-pointer hover:bg-gray-50 transition-colors mt-6 mx-4">
+        <div className="flex items-center gap-3">
+          <div className="bg-emerald-500 p-2 rounded-full text-white">
+            <Plus className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-800">Découvrez les nouveautés des boutiques dans leurs statuts</p>
+            
+          </div>
+        </div>
+        <button className="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium active:scale-95 transition-transform">
+          Statuts
+        </button>
+      </div>
+
+      <Reel />
       
       <FeaturedCarousel />
       {/* boutiques et status */}

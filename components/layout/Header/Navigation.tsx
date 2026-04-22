@@ -57,7 +57,7 @@ const Navigation = () => {
            
             <div className=' '>
                 {isOpen && (
-                    <ul className='flex flex-col  bg-background justify-between h-screen pl-5 pt-10 pb-40'>
+                    <ul className='flex flex-col  bg-white justify-between h-screen pl-5 pt-10 pb-40'>
                         <li>
                                 
                             <Link href="/client/acceuil" className={ pathname === '/client/acceuil' ? " text-primary-dark border-b-2  border-primary-dark font-medium flex flex-row gap-4 pb-2" : "flex flex-row gap-4 no-underline text-text-primary font-meduim transition-colors duration-300 hover:text-primary-dark"} >

@@ -15,6 +15,7 @@ query GetProducts($categoryId: String) {
       categoryId
       originalPrice
       shop {
+        shopId
         name
         slug
         isVerified

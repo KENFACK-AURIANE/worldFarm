@@ -113,7 +113,7 @@ export default async function ProductDetailPage({ params }: Props) {
           <div className="p-2 bg-teal-50 text-teal-600 rounded-lg"><Shapes size={20} /></div>
           <div>
             <p className="text-lgtext-gray-500">Catégorie</p>
-            <p className="font-semibold text-sm flex flex row">{resultat.parentName} <ChevronRight /> {resultat.childName}</p>
+            <p className="font-semibold text-sm flex flex-row">{resultat.parentName} <ChevronRight /> {resultat.childName}</p>
           </div>
         </div>
         

@@ -27,9 +27,9 @@ export default function BottomNav() {
 
   const navItems = [
     { href: `/vendor/Dashboard/DashboartVendor/${shopId}`, icon: LayoutDashboard },
-    { href: `/vendor/Dashboard/DashboartVendor/commandes`, icon: ShoppingBag },
-    { href: `/vendor/Dashboard/DashboartVendor/produits`, icon: Package },
-    { href: `/vendor/Dashboard/DashboartVendor/messages`, icon: MessageSquare },
+    { href: `/vendor/Dashboard/DashboartVendor/Commandes/${shopId}`, icon: ShoppingBag },
+    { href: `/vendor/Dashboard/DashboartVendor/produits/${shopId}`, icon: Package },
+    { href: `/vendor/Dashboard/DashboartVendor/message/${shopId}`, icon: MessageSquare },
     { href: `/vendor/Dashboard/DashboartVendor/client`, icon: Store },
   ];
 

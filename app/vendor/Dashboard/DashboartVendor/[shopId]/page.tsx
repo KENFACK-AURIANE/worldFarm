@@ -11,9 +11,26 @@ import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api/client";
 import { queryGraphql } from "@/lib/api/apiGraphql";
 import { FETCH_SHOP_BY_ID } from "@/lib/services/shopService";
-import { AlertTriangle, Archive, Bell, Eye, Info, Megaphone, Settings, Star, Store, Users, Verified,Hand, CheckCircle, TrendingUp, ClipboardCheck  } from "lucide-react";
+import { AlertTriangle,BadgeCheck,Globe, MousePointerClick, CheckCircle2 ,X, Archive, Bell, Eye, Info, Megaphone, Settings, Star, Store, Users, Verified,Hand, CheckCircle, TrendingUp, ClipboardCheck,Zap, Gem,Wallet,Gift ,ChevronRight  } from "lucide-react";
 import { BiMovie } from "react-icons/bi";
+import { motion, AnimatePresence } from 'framer-motion';
 import AlertMerchant from "@/components/features/ShopDashboardComponent/AlertMerchant";
+import Link from 'next/link';
+
+// --- Composants Types ---
+interface CommissionRowProps {
+  label: string;
+  value: string;
+}
+
+const CommissionRow = ({ label, value }: CommissionRowProps) => (
+  <div className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+    <span className="text-gray-600 text-sm">{label}</span>
+    <div className="bg-blue-50 text-blue-600 px-4 py-1 rounded-full font-bold text-sm min-w-17.5 text-center">
+      {value}
+    </div>
+  </div>
+);
 
 export default function ShopDashboard() {
   const { shopId } = useParams();
@@ -23,6 +40,8 @@ export default function ShopDashboard() {
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const [totalContentCount, setTotalContentCount] = useState(0)
   const [salesData, setSalesData] = useState<any>(null);
+  const [isSheetSponsorOpen, setIsSheetSponsorOpen] = useState(false);
+  const [isForfaitOpen, setIsForfaitOpen] = useState(false);
 
  useEffect(() => {
     if (!shopId) return;
@@ -70,12 +89,18 @@ export default function ShopDashboard() {
         </div>
         <div className="flex items-center gap-4">
           <button className="hover:text-blue-200"><Star className="h-5 w-5" /></button>
-          <button className="hover:text-blue-200"><Users className="h-5 w-5" /></button>
+          <Link 
+            href={`/vendor/Dashboard/DashboartVendor/mes_abonnes/${shopId}`}
+            className="hover:text-blue-200 transition-colors"
+          >
+            <button  className="hover:text-blue-200"><Users className="h-5 w-5" /></button>
+          </Link>
+          
           <div className="relative">
             <button className="hover:text-blue-200"><Bell className="h-5 w-5" /></button>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">6</span>
           </div>
-          <button className="hover:text-blue-200"><Megaphone className="h-5 w-5" /></button>
+          <button onClick={() => setIsSheetSponsorOpen(true)} className="hover:text-blue-200"><Megaphone className="h-5 w-5" /></button>
           <button className="hover:text-blue-200"><Settings className="h-5 w-5" onClick={() => router.push(`/vendor/Dashboard/DashboartVendor/parametres/${shop.shopId}`)} /></button>
         </div>
       </div>
@@ -90,7 +115,7 @@ export default function ShopDashboard() {
               <h2 className="text-5xl font-extrabold tracking-tight">{shop?.name}</h2>
             </div>
             <div className="flex items-center gap-2.5">
-              <button className="bg-[#FFFFFF]/10 p-2.5 rounded-full hover:bg-[#FFFFFF]/20 text-indigo-100"><Info className="h-6 w-6"/></button>
+              <button  onClick={() => setIsForfaitOpen(true)} className="bg-[#FFFFFF]/10 p-2.5 rounded-full hover:bg-[#FFFFFF]/20 text-indigo-100"><Info className="h-6 w-6"/></button>
               <button className="bg-[#FFFFFF]/10 px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 text-indigo-100 hover:bg-[#FFFFFF]/20">
                   <Eye className="h-5 w-5"/> Aperçu
               </button>
@@ -161,6 +186,295 @@ export default function ShopDashboard() {
         {shop?.data?.numberOfProducts === 0 && <EmptyProducts />} 
 
       </div>
+
+      {/* Bannière Sponsoring */}
+      <button 
+        onClick={() => setIsSheetSponsorOpen(true)}
+        className=" bg-indigo-600 rounded-2xl p-4 text-white flex items-center justify-between shadow-lg shadow-indigo-200 mx-4 mt-4 md:w-full md:mr-15"
+      >
+        <div className="flex items-center gap-4">
+          <div className="bg-white/20 p-3 rounded-xl">
+            <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+          </div>
+          <div className="text-left">
+            <h3 className="font-bold">Sponsorisez votre boutique</h3>
+            <p className="text-xs text-indigo-100">Apparaissez en tête de page et boostez vos ventes !</p>
+          </div>
+        </div>
+        <ChevronRight className="w-5 h-5 opacity-70" />
+      </button>
+
+      {/* Bottom Sheet Overlay */}
+      <AnimatePresence>
+        {isSheetSponsorOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSheetSponsorOpen(false)}
+              className="fixed inset-0 bg-black/40 z-40"
+            />
+            <motion.div 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 bg-slate-50 rounded-t-4xl z-50 max-h-[90vh] overflow-y-auto"
+            >
+              <div className="p-6">
+                {/* Barre de drag */}
+                <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-6" />
+                
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-amber-500 p-2 rounded-lg text-white">
+                      <Star className="w-5 h-5 fill-current" />
+                    </div>
+                    <h2 className="text-xl font-bold">Sponsoriser ma boutique</h2>
+                  </div>
+                  <button onClick={() => setIsSheetSponsorOpen(false)} className="bg-slate-200 p-1 rounded-full">
+                    <X className="w-5 h-5 text-slate-600" />
+                  </button>
+                </div>
+
+                {/* Carte Boost */}
+                <div className="bg-linear-to-br from-indigo-700 to-indigo-900 rounded-2xl p-5 text-white mb-6 flex items-start gap-4">
+                  <div className="bg-white/20 p-3 rounded-xl mt-1">
+                    <Star className="w-6 h-6 fill-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">Boostez votre visibilité</h3>
+                    <p className="text-sm text-indigo-100 opacity-90">
+                      Votre boutique apparaîtra en tête de la page d&apos;accueil avec le badge Sponsorisé.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Avantages */}
+                <div className="mb-8">
+                  <h4 className="font-bold mb-4">Avantages du sponsoring</h4>
+                  <div className="space-y-4">
+                    {[
+                      { icon: Eye, label: 'Visibilité maximale', desc: "Mise en avant sur la page d'accueil" },
+                      { icon: BadgeCheck, label: 'Badge Sponsorisé', desc: "Distinguez-vous des autres boutiques" },
+                      { icon: TrendingUp, label: 'Plus de clients', desc: "Augmentez vos ventes et vos abonnés" },
+                      { icon: MousePointerClick, label: 'Auto-défilement', desc: "Votre boutique défile automatiquement" },
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600">
+                            <item.icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm">{item.label}</p>
+                            <p className="text-xs text-slate-400">{item.desc}</p>
+                          </div>
+                        </div>
+                        <CheckCircle2 className="w-5 h-5 text-green-500 fill-green-50" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section "Comment" */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-100 mb-6 text-center">
+                  <div className="bg-indigo-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
+                    <Globe className="w-8 h-8" />
+                  </div>
+                  <h4 className="font-bold text-lg mb-3">Comment sponsoriser ?</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                    Pour sponsoriser votre boutique, connectez-vous à votre compte Nevo Market sur notre site web. 
+                    C&apos;est depuis la plateforme web que vous pourrez remplir votre demande de sponsorisation et effectuer le paiement.
+                  </p>
+                  
+                  <div className="space-y-4 text-left max-w-xs mx-auto">
+                    {[
+                      "Rendez-vous sur nevomarket.com",
+                      "Connectez-vous avec votre compte vendeur",
+                      "Accédez à la section \"Sponsorisation\"",
+                      "Remplissez le formulaire et payez"
+                    ].map((step, i) => (
+                      <div key={i} className="flex items-center gap-4">
+                        <span className="shrink-0 w-6 h-6 bg-indigo-900 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                          {i + 1}
+                        </span>
+                        <p className="text-sm font-medium text-slate-700">{step}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Info Box */}
+                  <div className="mt-8 bg-amber-50 border border-amber-100 p-4 rounded-xl flex items-start gap-3 text-left">
+                    <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[10px] font-bold mt-0.5">i</div>
+                    <p className="text-xs text-amber-700 font-medium">
+                      Votre demande sera traitée sous 24h après validation du paiement.
+                    </p>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => setIsSheetSponsorOpen(false)}
+                  className="w-full bg-indigo-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2"
+                >
+                  <CheckCircle2 className="w-5 h-5" />
+                  J&apos;ai compris
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+       {/* --- Bottom Sheet Forfaits & Commissions --- */}
+      <AnimatePresence>
+        {isForfaitOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsForfaitOpen(false)}
+              className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+            />
+            
+            {/* Sheet */}
+            <motion.div 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-x-0 bottom-0 z-50 bg-[#f8f9fe] rounded-t-[40px] max-h-[90vh] overflow-y-auto text-slate-900"
+            >
+              {/* Handle */}
+              <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mt-4" />
+              
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-indigo-600 rounded-2xl text-white">
+                      <Wallet size={24} />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold">Forfaits & Commissions</h2>
+                      <p className="text-sm text-gray-500">Comprendre nos tarifs</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setIsForfaitOpen(false)} className="p-2 bg-gray-100 rounded-full">
+                    <X size={20} className="text-gray-400" />
+                  </button>
+                </div>
+
+                {/* FAQ Note */}
+                <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-6 flex gap-4">
+                  <div className="text-blue-500">
+                    <Info size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-blue-700 font-bold text-sm mb-1">Quand les frais s&apos;appliquent-ils ?</h4>
+                    <p className="text-blue-600/80 text-[13px] leading-snug">
+                      Les commissions Nevo Market sont prélevées uniquement lors du passage de votre solde bloqué vers votre solde disponible.C&apos;est la seule fois que nous appliquons des frais sur chaque transaction.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Plan Gratuit */}
+                <div className="bg-white border border-gray-200 rounded-3xl p-5 mb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 bg-gray-100 rounded-xl text-gray-600">
+                      <Gift size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold">Gratuit</h3>
+                      <p className="text-sm text-gray-500">0 FCFA / mois</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gray-50/50 rounded-2xl p-4">
+                    <div className="flex justify-between text-[11px] font-bold text-indigo-900 uppercase tracking-wider mb-2 px-1">
+                      <span>Tranche (FCFA)</span>
+                      <span>NM + Opérateur</span>
+                    </div>
+                    <CommissionRow label="0 - 100 000" value="9%" />
+                    <CommissionRow label="100 001 - 200 000" value="8%" />
+                    <CommissionRow label="200 001 - 800 000" value="7%" />
+                    <CommissionRow label="800 001+" value="5%" />
+                  </div>
+                </div>
+
+                {/* Plan Premium */}
+                <div className="bg-white border-2 border-orange-200 rounded-3xl p-5 mb-6 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 bg-orange-100 rounded-xl text-orange-500">
+                      <Gem size={24} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold">Premium</h3>
+                        <span className="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-black">Populaire</span>
+                      </div>
+                      <p className="text-sm text-gray-500">5 000 FCFA / mois</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-orange-50/30 rounded-2xl p-4">
+                    <div className="flex justify-between text-[11px] font-bold text-orange-900/60 uppercase tracking-wider mb-2 px-1">
+                      <span>Tranche (FCFA)</span>
+                      <span>NM + Opérateur</span>
+                    </div>
+                    <CommissionRow label="0 - 100 000" value="6%" />
+                    <CommissionRow label="100 001 - 200 000" value="5%" />
+                    <CommissionRow label="200 001 - 800 000" value="4%" />
+                    <CommissionRow label="800 001+" value="3%" />
+                  </div>
+                </div>
+
+                {/* Footer Info */}
+                <div className="flex items-start gap-3 p-2 opacity-70 mb-10  flex-col">
+                  <div className="flex flex-row gap-5">
+                    <Info size={16} className="mt-1 shrink-0" />
+                    <p>Commissions tout inclus</p>
+                  </div>
+                  
+                  <p className="text-xs leading-relaxed">
+                    Les pourcentages affichés incluent à la fois les frais de la plateforme Nevo Market et les frais des opérateurs Mobile Money. Aucun frais supplémentaire ne sera déduit.
+                  </p>
+                </div>
+                <div className="max-w-md p-6 bg-slate-50 border border-slate-200 rounded-3xl shadow-sm">
+                  {/* Titre de la légende */}
+                  <h3 className="text-xl font-bold text-indigo-900 mb-4">
+                    Légende
+                  </h3>
+
+                  <div className="space-y-4">
+                    {/* Première ligne : Commission */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-indigo-900 rounded-md mt-0.5 shrink-0" />
+                      <p className="text-gray-800 font-medium">
+                        Commission totale <span className="text-gray-400 font-normal ml-1">• NM + Opérateurs Mobile Money</span>
+                      </p>
+                    </div>
+
+                    {/* Deuxième ligne : Information promotionnelle */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-md mt-0.5 shrink-0" />
+                      <p className="text-green-600 font-semibold italic">
+                        Plus le montant est élevé, moins vous payez !
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Optionnel : Une petite icône d'info pour enrichir l'UI */}
+                  <div className="mt-6 flex justify-end">
+                    <Info size={18} className="text-indigo-300" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       
       
       

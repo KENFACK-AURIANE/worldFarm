@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import BottomNav from "@/components/features/ShopDashboardComponent/BottomNav"; 
 import { SetStateAction, useEffect, useState } from "react"; 
 import { GeneralTab } from "@/components/features/ShopDasboardParametre/Tabs/GeneralTab"; 
 import { DeliveryTab } from "@/components/features/ShopDasboardParametre/Tabs/DeliveryTab"; 
@@ -76,6 +77,7 @@ return (
           {activeTab === "orders" && <OrdersTab shop={shop} />}
           {activeTab === "appearance" && <AppearanceTab  shop={shop} />}
         </div>
+        <BottomNav/>
     </div>
 
 ); };
